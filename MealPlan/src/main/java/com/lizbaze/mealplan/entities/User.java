@@ -19,6 +19,8 @@ public class User {
 	
 	private String email;
 	
+	private Boolean enabled;
+	
 	public User() {}
 	
 
@@ -63,6 +65,18 @@ public class User {
 	public void setEmail(String email) {
 		this.email = email;
 	}
+
+	public Boolean getEnabled() {
+		return enabled;
+	}
+
+
+
+	public void setEnabled(Boolean enabled) {
+		this.enabled = enabled;
+	}
+
+
 
 	@Override
 	public int hashCode() {
