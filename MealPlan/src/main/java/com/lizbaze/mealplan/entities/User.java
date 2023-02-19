@@ -1,10 +1,14 @@
 package com.lizbaze.mealplan.entities;
+import java.util.List;
 import java.util.Objects;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 
 @Entity
 public class User {
@@ -21,16 +25,21 @@ public class User {
 	
 	private Boolean enabled;
 	
+	@ManyToMany
+	@JoinTable(name="user_has_recipe", joinColumns=@JoinColumn(name="user_id"), inverseJoinColumns = @JoinColumn(name="recipe_id"))	
+	private List<Recipe> recipes;
+	
 	public User() {}
 	
 
 	
-	public User(int id, String username, String password, String email) {
+	public User(int id, String username, String password, String email, List<Recipe> recipes) {
 		super();
 		this.id = id;
 		this.username = username;
 		this.password = password;
 		this.email = email;
+		this.recipes = recipes;
 	}
 	
 	
@@ -74,6 +83,18 @@ public class User {
 
 	public void setEnabled(Boolean enabled) {
 		this.enabled = enabled;
+	}
+
+
+
+	public List<Recipe> getRecipes() {
+		return recipes;
+	}
+
+
+
+	public void setRecipes(List<Recipe> recipes) {
+		this.recipes = recipes;
 	}
 
 

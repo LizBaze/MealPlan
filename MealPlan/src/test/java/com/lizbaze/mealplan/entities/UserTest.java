@@ -1,6 +1,7 @@
 package com.lizbaze.mealplan.entities;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -41,9 +42,15 @@ class UserTest {
 	}
 
 	@Test
-	void test() {
+	void test_User_entity() {
 		assertNotNull(user);
 		assertEquals(user.getUsername(), "admin");
+	}
+	
+	@Test
+	void test_UserHasRecipe_mapping() {
+		assertTrue(user.getRecipes().size() > 0);
+		assertEquals("Macaroni and cheese", user.getRecipes().get(0).getName());
 	}
 
 }

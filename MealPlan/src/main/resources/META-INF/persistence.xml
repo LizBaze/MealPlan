@@ -8,6 +8,9 @@
 		<!-- begin entities -->
 
 		<class>com.lizbaze.mealplan.entities.User</class>
+		<class>com.lizbaze.mealplan.entities.Recipe</class>
+		<class>com.lizbaze.mealplan.entities.Ingredient</class>
+		<class>com.lizbaze.mealplan.entities.Instruction</class>
 
 		<!-- end entities -->
 
