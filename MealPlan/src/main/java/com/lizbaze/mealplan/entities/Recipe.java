@@ -30,12 +30,13 @@ public class Recipe {
 
 	
 
-	public Recipe(int id, String name, String description, List<Ingredient> ingredients) {
+	public Recipe(int id, String name, String description, List<Ingredient> ingredients, List<Instruction> instructions) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.description = description;
 		this.ingredients = ingredients;
+		this.instructions = instructions;
 	}
 
 
@@ -72,6 +73,18 @@ public class Recipe {
 
 	public void setIngredients(List<Ingredient> ingredients) {
 		this.ingredients = ingredients;
+	}
+
+
+
+	public List<Instruction> getInstructions() {
+		return instructions;
+	}
+
+
+
+	public void setInstructions(List<Instruction> instructions) {
+		this.instructions = instructions;
 	}
 
 
