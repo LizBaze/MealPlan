@@ -25,6 +25,8 @@ public class User {
 	
 	private Boolean enabled;
 	
+	private String role;
+	
 	@ManyToMany
 	@JoinTable(name="user_has_recipe", joinColumns=@JoinColumn(name="user_id"), inverseJoinColumns = @JoinColumn(name="recipe_id"))	
 	private List<Recipe> recipes;
@@ -33,13 +35,14 @@ public class User {
 	
 
 	
-	public User(int id, String username, String password, String email, List<Recipe> recipes) {
+	public User(int id, String username, String password, String email, List<Recipe> recipes, String role) {
 		super();
 		this.id = id;
 		this.username = username;
 		this.password = password;
 		this.email = email;
 		this.recipes = recipes;
+		this.role = role;
 	}
 	
 	
@@ -95,6 +98,18 @@ public class User {
 
 	public void setRecipes(List<Recipe> recipes) {
 		this.recipes = recipes;
+	}
+
+
+
+	public String getRole() {
+		return role;
+	}
+
+
+
+	public void setRole(String role) {
+		this.role = role;
 	}
 
 

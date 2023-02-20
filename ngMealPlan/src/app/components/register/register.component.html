@@ -1,0 +1,15 @@
+<div>
+  <h1>test</h1>
+</div>
+<input type="text" name="username" [(ngModel)]="user.username">
+<br>
+<input type="text" name="password" [(ngModel)]="user.password">
+<br>
+<button (click)="register(user)">Submit</button>
+<br>
+<br>
+<input type="text" name="username" [(ngModel)]="logInUser.username">
+<br>
+<input type="text" name="password" [(ngModel)]="logInUser.password">
+<br>
+<button (click)="logIn(logInUser.username, logInUser.password)">Submit</button>
