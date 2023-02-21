@@ -1,5 +1,6 @@
 package com.lizbaze.mealplan.controllers;
 
+import java.security.Principal;
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
@@ -7,6 +8,8 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -27,6 +30,17 @@ public class RecipeController {
 		
 		
 		return recipeServ.findAll();
+	}
+	
+	@PostMapping("recipes")
+	public Recipe create(@RequestBody Recipe recipe, Principal principal, HttpServletResponse res) {
+		recipe = recipeServ.create(recipe, principal.getName());
+		if (recipe != null ) {
+			res.setStatus(201);
+		} else {
+			res.setStatus(400);
+		}
+		return recipe;
 	}
 
 }

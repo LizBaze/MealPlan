@@ -1,4 +1,5 @@
 package com.lizbaze.mealplan.entities;
+
 import java.util.List;
 import java.util.Objects;
 
@@ -11,35 +12,39 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 @Entity
 public class User {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-	
-	private String username;
-	
-	private String password;
-	
-	private String email;
-	
-	private Boolean enabled;
-	
-	private String role;
-	
-	@ManyToMany
-	@JoinTable(name="user_has_recipe", joinColumns=@JoinColumn(name="user_id"), inverseJoinColumns = @JoinColumn(name="recipe_id"))	
-	private List<Recipe> recipes;
-	
-	@OneToMany(mappedBy="user")
-	private List<Recipe> createdRecipes;
-	
-	public User() {}
-	
 
-	
-	public User(int id, String username, String password, String email, List<Recipe> recipes, String role) {
+	private String username;
+
+	private String password;
+
+	private String email;
+
+	private Boolean enabled;
+
+	private String role;
+
+	@ManyToMany
+	@JoinTable(name = "user_has_recipe", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "recipe_id"))
+	@JsonIgnoreProperties({"user"})
+	private List<Recipe> recipes;
+
+	@OneToMany(mappedBy = "user")
+	@JsonIgnoreProperties({"user"})
+	private List<Recipe> createdRecipes;
+
+	public User() {
+	}
+
+	public User(int id, String username, String password, String email, List<Recipe> recipes, String role,
+			List<Recipe> createdRecipes) {
 		super();
 		this.id = id;
 		this.username = username;
@@ -47,9 +52,9 @@ public class User {
 		this.email = email;
 		this.recipes = recipes;
 		this.role = role;
+		this.createdRecipes = createdRecipes;
 	}
-	
-	
+
 	public int getId() {
 		return id;
 	}
@@ -86,37 +91,33 @@ public class User {
 		return enabled;
 	}
 
-
-
 	public void setEnabled(Boolean enabled) {
 		this.enabled = enabled;
 	}
-
-
 
 	public List<Recipe> getRecipes() {
 		return recipes;
 	}
 
-
-
 	public void setRecipes(List<Recipe> recipes) {
 		this.recipes = recipes;
 	}
-
-
 
 	public String getRole() {
 		return role;
 	}
 
-
-
 	public void setRole(String role) {
 		this.role = role;
 	}
 
+	public List<Recipe> getCreatedRecipes() {
+		return createdRecipes;
+	}
 
+	public void setCreatedRecipes(List<Recipe> createdRecipes) {
+		this.createdRecipes = createdRecipes;
+	}
 
 	@Override
 	public int hashCode() {
@@ -134,7 +135,6 @@ public class User {
 		User other = (User) obj;
 		return id == other.id;
 	}
-
 
 	@Override
 	public String toString() {
