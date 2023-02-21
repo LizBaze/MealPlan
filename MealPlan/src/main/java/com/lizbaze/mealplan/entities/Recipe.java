@@ -7,6 +7,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 @Entity
@@ -15,31 +17,37 @@ public class Recipe {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-	
+
 	private String name;
-	
+
 	private String description;
-	
-	@OneToMany(mappedBy="recipe")
+
+	private Boolean hidden;
+
+	@OneToMany(mappedBy = "recipe")
 	private List<Ingredient> ingredients;
-	
-	@OneToMany(mappedBy="recipe")
+
+	@OneToMany(mappedBy = "recipe")
 	private List<Instruction> instructions;
-	
-	public Recipe() {}
 
-	
+	@ManyToOne
+	@JoinColumn(name = "user_id")
+	private User user;
 
-	public Recipe(int id, String name, String description, List<Ingredient> ingredients, List<Instruction> instructions) {
+	public Recipe() {
+	}
+
+	public Recipe(int id, String name, String description, List<Ingredient> ingredients, List<Instruction> instructions,
+			User user, Boolean hidden) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.description = description;
 		this.ingredients = ingredients;
 		this.instructions = instructions;
+		this.user = user;
+		this.hidden = hidden;
 	}
-
-
 
 	public int getId() {
 		return id;
@@ -69,25 +77,33 @@ public class Recipe {
 		return ingredients;
 	}
 
-
-
 	public void setIngredients(List<Ingredient> ingredients) {
 		this.ingredients = ingredients;
 	}
-
-
 
 	public List<Instruction> getInstructions() {
 		return instructions;
 	}
 
-
-
 	public void setInstructions(List<Instruction> instructions) {
 		this.instructions = instructions;
 	}
 
+	public User getUser() {
+		return user;
+	}
 
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	public Boolean getHidden() {
+		return hidden;
+	}
+
+	public void setHidden(Boolean hidden) {
+		this.hidden = hidden;
+	}
 
 	@Override
 	public int hashCode() {
@@ -111,6 +127,5 @@ public class Recipe {
 		return "Recipe [id=" + id + ", name=" + name + ", description=" + description + ", ingredients=" + ingredients
 				+ "]";
 	}
-	
-	
+
 }

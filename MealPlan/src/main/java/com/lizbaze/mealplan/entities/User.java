@@ -9,6 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 
 @Entity
 public class User {
@@ -30,6 +31,9 @@ public class User {
 	@ManyToMany
 	@JoinTable(name="user_has_recipe", joinColumns=@JoinColumn(name="user_id"), inverseJoinColumns = @JoinColumn(name="recipe_id"))	
 	private List<Recipe> recipes;
+	
+	@OneToMany(mappedBy="user")
+	private List<Recipe> createdRecipes;
 	
 	public User() {}
 	

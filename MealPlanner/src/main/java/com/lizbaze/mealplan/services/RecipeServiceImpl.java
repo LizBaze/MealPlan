@@ -19,4 +19,13 @@ public class RecipeServiceImpl implements RecipeService {
 		return recipeRepo.findAll();
 	}
 
+
+	@Override
+	public Recipe create(Recipe recipe) {
+		
+		recipe = recipeRepo.saveAndFlush(recipe);
+		
+		return recipe;
+	}
+
 }
