@@ -2,10 +2,10 @@ import { Recipe } from "./recipe";
 
 export class Instruction {
 
-  private id: number;
-  private description: string;
+  id: number;
+  description: string;
 
-  private recipe: Recipe;
+  recipe: Recipe;
 
 constructor(
   id: number = 0,
