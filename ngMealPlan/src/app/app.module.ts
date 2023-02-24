@@ -10,6 +10,8 @@ import { RecipeComponent } from './components/recipe/recipe.component';
 import { HomeComponent } from './components/home/home.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { AccountComponent } from './components/account/account.component';
+import { FavoriteComponent } from './components/favorite/favorite.component';
 
 @NgModule({
   declarations: [
@@ -17,7 +19,9 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     RegisterComponent,
     RecipeComponent,
     HomeComponent,
-    NavbarComponent
+    NavbarComponent,
+    AccountComponent,
+    FavoriteComponent
   ],
   imports: [
     BrowserModule,

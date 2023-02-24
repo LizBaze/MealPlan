@@ -1,2 +1,5 @@
 
 <button [routerLink]="['/recipe']">Recipes</button>
+<button *ngIf="loggedIn()" [routerLink]="['/account']">Account</button>
+<button [routerLink]="['/favorites']">Favorites</button>
+<button *ngIf="!loggedIn()" [routerLink]="['/register']">Register</button>

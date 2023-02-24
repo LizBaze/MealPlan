@@ -35,12 +35,12 @@ export class RecipeService {
     )
   }
 
-  create(recipe: Recipe): Observable<Recipe>{
-    return this.http.post<Recipe>(this.url + "api/recipes", this.getHttpOptions).pipe(
+  create(recipe: Recipe){
+    return this.http.post<Recipe>(this.url + "api/recipes", recipe, this.getHttpOptions()).pipe(
       catchError((err: any) => {
         console.error(err);
         return throwError(
-          () => new Error("RecipeService.index(): error creating recipe")
+          () => new Error("RecipeService.create(): error creating recipe")
         )
       })
     )

@@ -27,12 +27,13 @@
 
     <div>
       <label for="name">Ingredient:</label>
+      <input type="text" list="suggestions" [(ngModel)]="ingredient.ingredient.name">
       <datalist id="suggestions">
-        <div *ngFor="let ingredient of ingredients">
-          <option>{{ingredient.name}}</option>
+        <div *ngFor="let ing of ingredients">
+          <option name="name">{{ing.name}}</option>
         </div>
       </datalist>
-      <input  autoComplete="on" list="suggestions"/>
+
   </div>
     <label for="amount">Amount:</label>
     <input type="text" name="amount" [(ngModel)]="ingredient.amount" />
