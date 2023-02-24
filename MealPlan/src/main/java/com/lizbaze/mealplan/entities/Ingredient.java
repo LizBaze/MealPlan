@@ -1,13 +1,13 @@
 package com.lizbaze.mealplan.entities;
 
+import java.util.List;
 import java.util.Objects;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.ManyToMany;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -22,19 +22,18 @@ public class Ingredient {
 	
 	private String amount;
 	
-	@ManyToOne
-	@JoinColumn(name="recipe_id")
+	@ManyToMany(mappedBy="ingredients")
 	@JsonIgnore
-	private Recipe recipe;
+	private List<Recipe> recipes;
 	
 	public Ingredient() {}
 
-	public Ingredient(int id, String name, String amount, Recipe recipe) {
+	public Ingredient(int id, String name, String amount, List<Recipe> recipes) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.amount = amount;
-		this.recipe = recipe;
+		this.recipes = recipes;
 	}
 
 	public int getId() {
@@ -61,12 +60,14 @@ public class Ingredient {
 		this.amount = amount;
 	}
 
-	public Recipe getRecipe() {
-		return recipe;
+	
+
+	public List<Recipe> getRecipes() {
+		return recipes;
 	}
 
-	public void setRecipe(Recipe recipe) {
-		this.recipe = recipe;
+	public void setRecipes(List<Recipe> recipes) {
+		this.recipes = recipes;
 	}
 
 	@Override

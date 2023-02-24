@@ -1,5 +1,6 @@
 package com.lizbaze.mealplan.entities;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -139,6 +140,39 @@ public class User {
 	@Override
 	public String toString() {
 		return "User [id=" + id + ", username=" + username + ", password=" + password + ", email=" + email + "]";
+	}
+	
+	
+	public void addFavorite(Recipe recipe) {
+		if (recipes == null) {
+			recipes = new ArrayList<>();
+		}
+		if (! recipes.contains(recipe)) {
+			recipes.add(recipe);
+		}
+	}
+	
+	public void removeFavorite(Recipe recipe) {
+		if (recipes != null && recipes.contains(recipe)) {
+			recipes.remove(recipe);
+		}
+	}
+	
+	public void addCreatedRecipe(Recipe recipe) {
+		if (createdRecipes == null) {
+			createdRecipes = new ArrayList<>();
+		}
+		if (! createdRecipes.contains(recipe)) {
+			createdRecipes.add(recipe);
+			recipe.setUser(this);
+		}
+	}
+	
+	public void removeCreatedRecipe(Recipe recipe) {
+		if (createdRecipes != null && recipes.contains(recipe)) {
+			createdRecipes.remove(recipe);
+			recipe.setUser(null);
+		}
 	}
 
 }

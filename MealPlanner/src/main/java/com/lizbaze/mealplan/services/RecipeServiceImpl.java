@@ -40,11 +40,10 @@ public class RecipeServiceImpl implements RecipeService {
 
 		if (user != null) {
 			recipe.setUser(user);
-			recipe = recipeRepo.saveAndFlush(recipe);
 			for (Ingredient ingredient: recipe.getIngredients()) {
-				ingredient.setRecipe(recipe);
 				ingredientRepo.saveAndFlush(ingredient);
 			}
+			recipe = recipeRepo.saveAndFlush(recipe);
 			for (Instruction instruction: recipe.getInstructions()) {
 				instruction.setRecipe(recipe);
 				instructionRepo.saveAndFlush(instruction);

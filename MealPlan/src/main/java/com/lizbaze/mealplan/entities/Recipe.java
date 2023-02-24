@@ -1,5 +1,6 @@
 package com.lizbaze.mealplan.entities;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -8,6 +9,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
@@ -24,7 +27,8 @@ public class Recipe {
 
 	private Boolean hidden;
 
-	@OneToMany(mappedBy = "recipe")
+	@ManyToMany
+	@JoinTable(name = "recipe_has_ingredient", joinColumns = @JoinColumn(name = "recipe_id"), inverseJoinColumns = @JoinColumn(name = "ingredient_id"))
 	private List<Ingredient> ingredients;
 
 	@OneToMany(mappedBy = "recipe")
@@ -126,6 +130,22 @@ public class Recipe {
 	public String toString() {
 		return "Recipe [id=" + id + ", name=" + name + ", description=" + description + ", ingredients=" + ingredients
 				+ "]";
+	}
+	
+	public void addIngredient(Ingredient ingredient) {
+		if (ingredients == null) {
+			ingredients = new ArrayList<>();
+		}
+		if(!ingredients.contains(ingredient)) {
+			ingredients.add(ingredient);
+	
+		}
+	}
+	
+	public void removeIngredient(Ingredient ingredient) {
+		if (ingredients != null && ingredients.contains(ingredient)) {
+			ingredients.remove(ingredient);
+		}
 	}
 
 }
