@@ -1,3 +1,4 @@
+import { IngredientService } from './../../services/ingredient.service';
 import { Ingredient } from './../../models/ingredient';
 import { Instruction } from './../../models/instruction';
 import { RecipeService } from './../../services/recipe.service';
@@ -11,9 +12,10 @@ import { Recipe } from 'src/app/models/recipe';
 })
 export class RecipeComponent implements OnInit {
   recipes: Recipe[] = [];
+  ingredients: Ingredient[] = [];
   newRecipe: Recipe | null = null;
 
-  constructor(private recipeService: RecipeService) {}
+  constructor(private recipeService: RecipeService, private ingServ: IngredientService) {}
 
   ngOnInit() {
     this.index();
@@ -28,6 +30,15 @@ export class RecipeComponent implements OnInit {
         console.error(err);
       },
     });
+    this.ingServ.index().subscribe({
+      next: (ingredients: Ingredient[]) => {
+        this.ingredients = ingredients;
+        console.log(ingredients);
+      },
+      error: (err: any) => {
+        console.error(err);
+      }
+    })
   }
 
   initializeNewRecipe() {

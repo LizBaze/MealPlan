@@ -7,9 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import javax.persistence.OneToMany;
 
 @Entity
 public class Ingredient {
@@ -22,13 +20,12 @@ public class Ingredient {
 	
 	private String amount;
 	
-	@ManyToMany(mappedBy="ingredients")
-	@JsonIgnore
-	private List<Recipe> recipes;
+	@OneToMany(mappedBy="ingredient")
+	private List<RecipeHasIngredient> recipes;
 	
 	public Ingredient() {}
 
-	public Ingredient(int id, String name, String amount, List<Recipe> recipes) {
+	public Ingredient(int id, String name, String amount, List<RecipeHasIngredient> recipes) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -62,11 +59,11 @@ public class Ingredient {
 
 	
 
-	public List<Recipe> getRecipes() {
+	public List<RecipeHasIngredient> getRecipes() {
 		return recipes;
 	}
 
-	public void setRecipes(List<Recipe> recipes) {
+	public void setRecipes(List<RecipeHasIngredient> recipes) {
 		this.recipes = recipes;
 	}
 

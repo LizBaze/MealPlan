@@ -23,19 +23,23 @@
 
   <h3>Ingredients</h3>
   <div *ngFor="let ingredient of newRecipe.ingredients">
-    <label for="name">Ingredient:</label>
-    <input type="text" name="name" [(ngModel)]="ingredient.name" />
+
+
+    <div>
+      <label for="name">Ingredient:</label>
+      <datalist id="suggestions">
+        <div *ngFor="let ingredient of ingredients">
+          <option>{{ingredient.name}}</option>
+        </div>
+      </datalist>
+      <input  autoComplete="on" list="suggestions"/>
+  </div>
     <label for="amount">Amount:</label>
     <input type="text" name="amount" [(ngModel)]="ingredient.amount" />
   </div>
   <button (click)="addNewIngredientToRecipe()">Add Ingredient</button>
 
-  <div>
-    <datalist id="suggestions">
-        <option>First option</option>
-    </datalist>
-    <input  autoComplete="on" list="suggestions"/>
-</div>
+
 
   <h3>Instructions</h3>
   <div *ngFor="let instruction of newRecipe.instructions; let i = index">

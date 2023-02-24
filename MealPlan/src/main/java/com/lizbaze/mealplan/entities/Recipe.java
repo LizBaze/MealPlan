@@ -27,9 +27,8 @@ public class Recipe {
 
 	private Boolean hidden;
 
-	@ManyToMany
-	@JoinTable(name = "recipe_has_ingredient", joinColumns = @JoinColumn(name = "recipe_id"), inverseJoinColumns = @JoinColumn(name = "ingredient_id"))
-	private List<Ingredient> ingredients;
+	@OneToMany(mappedBy="recipe")
+	private List<RecipeHasIngredient> ingredients;
 
 	@OneToMany(mappedBy = "recipe")
 	private List<Instruction> instructions;
@@ -41,7 +40,7 @@ public class Recipe {
 	public Recipe() {
 	}
 
-	public Recipe(int id, String name, String description, List<Ingredient> ingredients, List<Instruction> instructions,
+	public Recipe(int id, String name, String description, List<RecipeHasIngredient> ingredients, List<Instruction> instructions,
 			User user, Boolean hidden) {
 		super();
 		this.id = id;
@@ -77,11 +76,11 @@ public class Recipe {
 		this.description = description;
 	}
 
-	public List<Ingredient> getIngredients() {
+	public List<RecipeHasIngredient> getIngredients() {
 		return ingredients;
 	}
 
-	public void setIngredients(List<Ingredient> ingredients) {
+	public void setIngredients(List<RecipeHasIngredient> ingredients) {
 		this.ingredients = ingredients;
 	}
 
@@ -132,19 +131,21 @@ public class Recipe {
 				+ "]";
 	}
 	
-	public void addIngredient(Ingredient ingredient) {
+	public void addIngredient(RecipeHasIngredient ingredient) {
 		if (ingredients == null) {
 			ingredients = new ArrayList<>();
 		}
 		if(!ingredients.contains(ingredient)) {
 			ingredients.add(ingredient);
+			ingredient.setRecipe(this);
 	
 		}
 	}
 	
-	public void removeIngredient(Ingredient ingredient) {
+	public void removeIngredient(RecipeHasIngredient ingredient) {
 		if (ingredients != null && ingredients.contains(ingredient)) {
 			ingredients.remove(ingredient);
+			ingredient.setRecipe(null);
 		}
 	}
 

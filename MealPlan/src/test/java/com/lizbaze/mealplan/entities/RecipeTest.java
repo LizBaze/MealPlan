@@ -50,7 +50,7 @@ class RecipeTest {
 	@Test
 	void test_Recipe_to_Ingredient_mapping() {
 		assertTrue(recipe.getIngredients().size() > 0);
-		assertEquals(recipe.getIngredients().get(0).getName(), "Macaroni");
+		assertEquals(recipe.getIngredients().get(0).getIngredient().getName(), "Macaroni");
 	}
 	
 	@Test
