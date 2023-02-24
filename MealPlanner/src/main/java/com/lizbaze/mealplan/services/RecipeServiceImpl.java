@@ -5,12 +5,12 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.lizbaze.mealplan.controllers.IngredientRepository;
-import com.lizbaze.mealplan.controllers.InstructionRepository;
 import com.lizbaze.mealplan.entities.Ingredient;
 import com.lizbaze.mealplan.entities.Instruction;
 import com.lizbaze.mealplan.entities.Recipe;
 import com.lizbaze.mealplan.entities.User;
+import com.lizbaze.mealplan.repositories.IngredientRepository;
+import com.lizbaze.mealplan.repositories.InstructionRepository;
 import com.lizbaze.mealplan.repositories.RecipeRepository;
 import com.lizbaze.mealplan.repositories.UserRepository;
 

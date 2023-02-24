@@ -1,4 +1,4 @@
-package com.lizbaze.mealplan.controllers;
+package com.lizbaze.mealplan.repositories;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

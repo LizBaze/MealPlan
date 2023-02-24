@@ -11,42 +11,42 @@
 <div *ngIf="newRecipe">
   <label for="name">Name:</label>
   <input type="text" name="name" [(ngModel)]="newRecipe.name" />
-  <br>
+  <br />
   <label for="description">Description:</label>
-  <br>
-  <textarea name="description" [(ngModel)]="newRecipe.description" cols="30" rows="10"></textarea>
+  <br />
+  <textarea
+    name="description"
+    [(ngModel)]="newRecipe.description"
+    cols="30"
+    rows="10"
+  ></textarea>
 
   <h3>Ingredients</h3>
   <div *ngFor="let ingredient of newRecipe.ingredients">
     <label for="name">Ingredient:</label>
-    <input type="text" name="name" [(ngModel)]="ingredient.name">
+    <input type="text" name="name" [(ngModel)]="ingredient.name" />
     <label for="amount">Amount:</label>
-    <input type="text" name="amount" [(ngModel)]="ingredient.amount">
+    <input type="text" name="amount" [(ngModel)]="ingredient.amount" />
   </div>
   <button (click)="addNewIngredientToRecipe()">Add Ingredient</button>
 
   <div>
-    <div class="dropdown">
-      <button onclick="myFunction()" class="dropbtn">Dropdown</button>
-      <div id="myDropdown" class="dropdown-content">
-        <input type="text" placeholder="Search.." id="myInput" onkeyup="filterFunction()">
-        <a href="#about">About</a>
-        <a href="#base">Base</a>
-        <a href="#blog">Blog</a>
-        <a href="#contact">Contact</a>
-        <a href="#custom">Custom</a>
-        <a href="#support">Support</a>
-        <a href="#tools">Tools</a>
-      </div>
-    </div>
+    <datalist id="suggestions">
+        <option>First option</option>
+    </datalist>
+    <input  autoComplete="on" list="suggestions"/>
 </div>
 
-
   <h3>Instructions</h3>
-  <div *ngFor="let instruction of newRecipe.instructions;let i = index;">
-    <label for="description">Step {{i + 1}} </label>
-    <br>
-    <textarea name="description"cols="30" rows="10" [(ngModel)]="instruction.description"></textarea>
+  <div *ngFor="let instruction of newRecipe.instructions; let i = index">
+    <label for="description">Step {{ i + 1 }} </label>
+    <br />
+    <textarea
+      name="description"
+      cols="30"
+      rows="10"
+      [(ngModel)]="instruction.description"
+    ></textarea>
   </div>
   <button (click)="addNewInstructionToRecipe()">Add Step</button>
 </div>
