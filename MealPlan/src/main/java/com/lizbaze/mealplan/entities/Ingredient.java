@@ -9,6 +9,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class Ingredient {
 	
@@ -18,18 +20,18 @@ public class Ingredient {
 	
 	private String name;
 	
-	private String amount;
 	
 	@OneToMany(mappedBy="ingredient")
+	@JsonIgnore
 	private List<RecipeHasIngredient> recipes;
 	
 	public Ingredient() {}
 
-	public Ingredient(int id, String name, String amount, List<RecipeHasIngredient> recipes) {
+	public Ingredient(int id, String name, List<RecipeHasIngredient> recipes) {
 		super();
 		this.id = id;
 		this.name = name;
-		this.amount = amount;
+		
 		this.recipes = recipes;
 	}
 
@@ -49,13 +51,7 @@ public class Ingredient {
 		this.name = name;
 	}
 
-	public String getAmount() {
-		return amount;
-	}
-
-	public void setAmount(String amount) {
-		this.amount = amount;
-	}
+	
 
 	
 
@@ -86,7 +82,7 @@ public class Ingredient {
 
 	@Override
 	public String toString() {
-		return "Ingredient [id=" + id + ", name=" + name + ", amount=" + amount;
+		return "Ingredient [id=" + id + ", name=" + name;
 	}
 
 }

@@ -4,6 +4,7 @@ import { Instruction } from './../../models/instruction';
 import { RecipeService } from './../../services/recipe.service';
 import { Component, OnInit } from '@angular/core';
 import { Recipe } from 'src/app/models/recipe';
+import { RecipeHasIngredient } from 'src/app/models/recipe-has-ingredient';
 
 @Component({
   selector: 'app-recipe',
@@ -44,7 +45,7 @@ export class RecipeComponent implements OnInit {
   initializeNewRecipe() {
     this.newRecipe = new Recipe();
     this.newRecipe.instructions.push(new Instruction());
-    this.newRecipe.ingredients.push(new Ingredient());
+    this.newRecipe.ingredients.push(new RecipeHasIngredient());
   }
 
   addNewInstructionToRecipe() {
@@ -56,7 +57,7 @@ export class RecipeComponent implements OnInit {
   addNewIngredientToRecipe() {
 
     if (this.newRecipe) {
-      this.newRecipe.ingredients.push(new Ingredient());
+      this.newRecipe.ingredients.push(new RecipeHasIngredient());
     }
   }
 }

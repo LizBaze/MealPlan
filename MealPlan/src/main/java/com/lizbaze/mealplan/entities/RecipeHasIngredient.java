@@ -8,6 +8,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.MapsId;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class RecipeHasIngredient {
 	
@@ -18,6 +20,7 @@ public class RecipeHasIngredient {
 	@ManyToOne
 	@JoinColumn(name="recipe_id")
 	@MapsId(value="recipeId")
+	@JsonIgnore
 	private Recipe recipe;
 	
 	@ManyToOne

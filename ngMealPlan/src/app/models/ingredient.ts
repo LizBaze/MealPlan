@@ -1,3 +1,4 @@
+import { RecipeHasIngredient } from './recipe-has-ingredient';
 import { Recipe } from './recipe';
 export class Ingredient {
 
@@ -5,18 +6,18 @@ export class Ingredient {
   name: string;
   amount: string;
 
-  recipe: Recipe;
+  recipes: RecipeHasIngredient[];
 
 constructor(
   id: number = 0,
   name: string = "",
   amount: string = "",
-  recipe: Recipe = new Recipe()
+  recipes: RecipeHasIngredient[] = []
 ){
   this.id = id;
   this.name = name;
   this.amount = amount;
-  this.recipe = recipe;
+  this.recipes = recipes;
 }
 
 }

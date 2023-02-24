@@ -1,18 +1,19 @@
 import { Ingredient } from './ingredient';
 import { Instruction } from './instruction';
+import { RecipeHasIngredient } from './recipe-has-ingredient';
 
 export class Recipe {
   id: number;
   name: string;
   description: string;
-  ingredients: Ingredient[];
+  ingredients: RecipeHasIngredient[];
   instructions: Instruction[];
 
   constructor(
     id: number = 0,
     name: string = '',
     description: string = '',
-    ingredients: Ingredient[] = [],
+    ingredients: RecipeHasIngredient[] = [],
     instructions: Instruction[] = []
   ) {
     this.id = id;

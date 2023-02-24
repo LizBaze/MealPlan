@@ -5,9 +5,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.lizbaze.mealplan.entities.Ingredient;
 import com.lizbaze.mealplan.entities.Instruction;
 import com.lizbaze.mealplan.entities.Recipe;
+import com.lizbaze.mealplan.entities.RecipeHasIngredient;
 import com.lizbaze.mealplan.entities.User;
 import com.lizbaze.mealplan.repositories.IngredientRepository;
 import com.lizbaze.mealplan.repositories.InstructionRepository;
@@ -40,11 +40,11 @@ public class RecipeServiceImpl implements RecipeService {
 
 		if (user != null) {
 			recipe.setUser(user);
-//			for (Ingredient ingredient: recipe.getIngredients()) {
-//				if ( ingredientRepo.findByName(ingredient.getName()) == null) {
-//					ingredientRepo.saveAndFlush(ingredient);
-//				}
-//			}
+			for (RecipeHasIngredient ingredient: recipe.getIngredients()) {
+				if ( ingredientRepo.findByName(ingredient.getIngredient().getName()) == null) {
+					ingredientRepo.saveAndFlush(ingredient.getIngredient());
+				}
+			}
 			recipe = recipeRepo.saveAndFlush(recipe);
 			for (Instruction instruction: recipe.getInstructions()) {
 				instruction.setRecipe(recipe);
