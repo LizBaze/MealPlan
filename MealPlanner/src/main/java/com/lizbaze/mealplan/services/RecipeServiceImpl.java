@@ -5,12 +5,15 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.lizbaze.mealplan.entities.Ingredient;
 import com.lizbaze.mealplan.entities.Instruction;
 import com.lizbaze.mealplan.entities.Recipe;
 import com.lizbaze.mealplan.entities.RecipeHasIngredient;
+import com.lizbaze.mealplan.entities.RecipeHasIngredientId;
 import com.lizbaze.mealplan.entities.User;
 import com.lizbaze.mealplan.repositories.IngredientRepository;
 import com.lizbaze.mealplan.repositories.InstructionRepository;
+import com.lizbaze.mealplan.repositories.RecipeHasIngredientRepository;
 import com.lizbaze.mealplan.repositories.RecipeRepository;
 import com.lizbaze.mealplan.repositories.UserRepository;
 
@@ -29,6 +32,9 @@ public class RecipeServiceImpl implements RecipeService {
 	@Autowired
 	private InstructionRepository instructionRepo;
 	
+	@Autowired
+	private RecipeHasIngredientRepository rhiRepo;
+	
 	@Override
 	public List<Recipe> findAll() {
 		return recipeRepo.findAll();
@@ -36,17 +42,25 @@ public class RecipeServiceImpl implements RecipeService {
 
 	@Override
 	public Recipe create(Recipe recipe, String username) {
+	
 		User user = userRepo.findByUsername(username);
-
+		
 		if (user != null) {
 			recipe.setUser(user);
-			for (RecipeHasIngredient ingredient: recipe.getIngredients()) {
-				if ( ingredientRepo.findByName(ingredient.getIngredient().getName()) == null) {
-					ingredientRepo.saveAndFlush(ingredient.getIngredient());
-				}
+			recipeRepo.saveAndFlush(recipe);
+			
+			for (RecipeHasIngredient rHI : recipe.getIngredients()) {
+				Ingredient ingredient = ingredientRepo.findByName(rHI.getIngredient().getName());
+				if ( ingredient == null ) {
+					ingredientRepo.saveAndFlush(rHI.getIngredient());
+				} 
+				RecipeHasIngredientId id = new RecipeHasIngredientId(recipe.getId(), rHI.getIngredient().getId());
+				rHI.setId(id);
+				rHI.setRecipe(recipe);
+				rHI.setIngredient(ingredient);
+				rhiRepo.saveAndFlush(rHI);
 			}
-			recipe = recipeRepo.saveAndFlush(recipe);
-			for (Instruction instruction: recipe.getInstructions()) {
+			for (Instruction instruction : recipe.getInstructions()) {
 				instruction.setRecipe(recipe);
 				instructionRepo.saveAndFlush(instruction);
 			}

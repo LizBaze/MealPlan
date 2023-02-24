@@ -15,6 +15,7 @@ export class RecipeComponent implements OnInit {
   recipes: Recipe[] = [];
   ingredients: Ingredient[] = [];
   newRecipe: Recipe | null = null;
+  selected : Recipe | null = null;
 
   constructor(private recipeService: RecipeService, private ingServ: IngredientService) {}
 
@@ -35,6 +36,17 @@ export class RecipeComponent implements OnInit {
       next: (ingredients: Ingredient[]) => {
         this.ingredients = ingredients;
         console.log(ingredients);
+      },
+      error: (err: any) => {
+        console.error(err);
+      }
+    })
+  }
+
+  create(recipe: Recipe) {
+    this.recipeService.create(recipe).subscribe({
+      next: (recipe: Recipe) => {
+        this.selected = recipe;
       },
       error: (err: any) => {
         console.error(err);
