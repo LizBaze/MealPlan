@@ -1,6 +1,7 @@
 package com.lizbaze.mealplan.services;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -66,6 +67,16 @@ public class RecipeServiceImpl implements RecipeService {
 			
 		}
 
+		return recipe;
+	}
+
+	@Override
+	public Recipe findById(int id) {
+		Optional<Recipe> recipeOpt = recipeRepo.findById(id);
+		Recipe recipe = null;
+		if (recipeOpt.isPresent()) {
+			recipe = recipeOpt.get();
+		}
 		return recipe;
 	}
 

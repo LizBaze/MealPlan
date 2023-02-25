@@ -46,6 +46,10 @@ export class RecipeService {
     )
   }
 
+  addToFavorites(recipe: Recipe) {
+
+  }
+
 
 
 

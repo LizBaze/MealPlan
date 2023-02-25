@@ -6,7 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.lizbaze.mealplan.entities.Recipe;
 import com.lizbaze.mealplan.entities.User;
+import com.lizbaze.mealplan.repositories.RecipeRepository;
 import com.lizbaze.mealplan.repositories.UserRepository;
 
 @Service
@@ -18,6 +20,9 @@ public class AuthServiceImpl implements AuthService {
 	
 	@Autowired
 	private UserRepository userRepo;
+	
+	@Autowired
+	private RecipeRepository recipeRepo;
 	
 	@Override
 	public User register(User user) {
@@ -42,6 +47,18 @@ public class AuthServiceImpl implements AuthService {
 		}
 		return user;
 //		return userOpt.isPresent() ? userOpt.get() : null;
+	}
+
+	@Override
+	public boolean addRecipeToFavorites(Recipe recipe, String username) {
+		boolean success = false;
+		User user = userRepo.findByUsername(username);
+		if (user != null) {
+			user.addFavorite(recipe);
+			userRepo.saveAndFlush(user);
+			success = true;
+		}
+		return success;
 	}
 	
 	

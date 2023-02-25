@@ -2,10 +2,27 @@
   Add New Recipe
 </button>
 
-<div class="grid-container" *ngIf="!newRecipe">
+<div class="grid-container" *ngIf="!newRecipe && !selected">
   <div class="grid-item" *ngFor="let recipe of recipes">
-    <h3>{{ recipe.name }}</h3>
+    <h3 (click)="selectRecipe(recipe)">{{ recipe.name }}</h3>
   </div>
+</div>
+
+<div *ngIf="selected">
+  <h3>{{ selected.name }}</h3>
+  <ul>
+    <li *ngFor="let recipeIngredient of selected.ingredients">
+      {{ recipeIngredient.amount }} {{ recipeIngredient.ingredient.name }}
+    </li>
+  </ul>
+  <div *ngFor="let instruction of selected.instructions">
+    <p>
+      {{ instruction.description }}
+    </p>
+  </div>
+
+  <button>Add to favorites!</button>
+  <button (click)="selected = null">Back</button>
 </div>
 
 <div *ngIf="newRecipe">
@@ -23,24 +40,23 @@
 
   <h3>Ingredients</h3>
   <div *ngFor="let ingredient of newRecipe.ingredients">
-
-
     <div>
       <label for="name">Ingredient:</label>
-      <input type="text" list="suggestions" [(ngModel)]="ingredient.ingredient.name">
+      <input
+        type="text"
+        list="suggestions"
+        [(ngModel)]="ingredient.ingredient.name"
+      />
       <datalist id="suggestions">
         <div *ngFor="let ing of ingredients">
-          <option name="name">{{ing.name}}</option>
+          <option name="name">{{ ing.name }}</option>
         </div>
       </datalist>
-
-  </div>
+    </div>
     <label for="amount">Amount:</label>
     <input type="text" name="amount" [(ngModel)]="ingredient.amount" />
   </div>
   <button (click)="addNewIngredientToRecipe()">Add Ingredient</button>
-
-
 
   <h3>Instructions</h3>
   <div *ngFor="let instruction of newRecipe.instructions; let i = index">

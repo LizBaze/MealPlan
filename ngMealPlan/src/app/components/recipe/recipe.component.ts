@@ -72,4 +72,9 @@ export class RecipeComponent implements OnInit {
       this.newRecipe.ingredients.push(new RecipeHasIngredient());
     }
   }
+
+selectRecipe(recipe: Recipe) {
+  this.selected = recipe;
+}
+
 }

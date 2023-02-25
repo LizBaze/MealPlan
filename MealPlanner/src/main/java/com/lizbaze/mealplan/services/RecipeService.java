@@ -8,5 +8,6 @@ public interface RecipeService {
 	
 	public List<Recipe> findAll();
 	public Recipe create(Recipe recipe, String username);
+	public Recipe findById(int id);
 
 }
