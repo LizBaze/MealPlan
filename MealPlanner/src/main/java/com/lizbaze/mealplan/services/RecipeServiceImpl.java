@@ -49,6 +49,7 @@ public class RecipeServiceImpl implements RecipeService {
 		if (user != null) {
 			recipe.setUser(user);
 			recipeRepo.saveAndFlush(recipe);
+			user.addFavorite(recipe);
 			
 			for (RecipeHasIngredient rHI : recipe.getIngredients()) {
 				Ingredient ingredient = ingredientRepo.findByName(rHI.getIngredient().getName());
