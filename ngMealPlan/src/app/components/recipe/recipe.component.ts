@@ -68,7 +68,7 @@ export class RecipeComponent implements OnInit {
     this.ingServ.index().subscribe({
       next: (ingredients: Ingredient[]) => {
         this.ingredients = ingredients;
-        console.log(ingredients);
+
       },
       error: (err: any) => {
         console.error(err);

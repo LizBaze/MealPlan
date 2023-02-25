@@ -1,3 +1,12 @@
-<ul *ngIf="user">
+<button (click)="initializeMealPlan()">Generate Meal Plan!</button>
+
+<div *ngIf="mealPlan">
+  <label for="days">Enter the number of meals you'd like generated:</label>
+<input type="text" name="days" [(ngModel)]="numMeals">
+<button (click)="generateMealPlan(numMeals)">Submit</button>
+</div>
+
+
+<ul *ngIf="user && !mealPlan">
   <li *ngFor="let recipe of user.recipes">{{recipe.name}}</li>
 </ul>
