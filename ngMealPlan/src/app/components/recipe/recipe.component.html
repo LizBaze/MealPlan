@@ -21,7 +21,18 @@
     </p>
   </div>
 
-  <button *ngIf="user && !checkIfRecipeInFavorites(selected)" (click)="addToFavorites(user.id, selected.id)">Add to favorites!</button>
+  <button
+    *ngIf="user && checkIfRecipeInFavorites(selected)"
+    (click)="removeFromFavorites(user.id, selected.id)"
+  >
+    Remove from favorites
+  </button>
+  <button
+    *ngIf="user && !checkIfRecipeInFavorites(selected)"
+    (click)="addToFavorites(user.id, selected.id)"
+  >
+    Add to favorites!
+  </button>
   <button (click)="selected = null">Back</button>
 </div>
 

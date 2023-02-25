@@ -51,7 +51,7 @@ export class RecipeService {
   }
 
   addToFavorites(userId: number, recipeId: number) {
-    console.log(this.url + 'api/users/' + userId + '/favorites/' + recipeId)
+
     return this.http
       .put<void>(
         this.url + 'api/users/' + userId + '/favorites/' + recipeId, null,
@@ -66,4 +66,19 @@ export class RecipeService {
         })
       );
   }
+
+  removeFromFavorites(userId: number, recipeId: number) {
+    return this.http
+      .delete<void>(
+        this.url + 'api/users/' + userId + '/favorites/' + recipeId, this.getHttpOptions()).pipe(
+          catchError((err: any) => {
+            console.error(err);
+            return throwError(
+              () => new Error('RecipeService.removeFromFavorites(): error removing recipe from favorites')
+            );
+          })
+        )
+     }
+
+
 }
