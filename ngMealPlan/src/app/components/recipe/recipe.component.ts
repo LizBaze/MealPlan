@@ -1,3 +1,5 @@
+import { Router } from '@angular/router';
+import { AuthService } from 'src/app/services/auth.service';
 import { IngredientService } from './../../services/ingredient.service';
 import { Ingredient } from './../../models/ingredient';
 import { Instruction } from './../../models/instruction';
@@ -5,6 +7,7 @@ import { RecipeService } from './../../services/recipe.service';
 import { Component, OnInit } from '@angular/core';
 import { Recipe } from 'src/app/models/recipe';
 import { RecipeHasIngredient } from 'src/app/models/recipe-has-ingredient';
+import { User } from 'src/app/models/user';
 
 @Component({
   selector: 'app-recipe',
@@ -15,12 +18,30 @@ export class RecipeComponent implements OnInit {
   recipes: Recipe[] = [];
   ingredients: Ingredient[] = [];
   newRecipe: Recipe | null = null;
-  selected : Recipe | null = null;
+  selected: Recipe | null = null;
+  user: User | null = null;
 
-  constructor(private recipeService: RecipeService, private ingServ: IngredientService) {}
+  constructor(
+    private recipeService: RecipeService,
+    private ingServ: IngredientService,
+    private auth: AuthService,
+    private router: Router
+  ) {}
 
   ngOnInit() {
     this.index();
+    this.getUser();
+  }
+
+  getUser() {
+    this.auth.getLoggedInUser().subscribe({
+      next: (user: User) => {
+        this.user = user;
+      },
+      error: (err: any) => {
+        console.error(err);
+      },
+    });
   }
 
   index() {
@@ -39,14 +60,26 @@ export class RecipeComponent implements OnInit {
       },
       error: (err: any) => {
         console.error(err);
-      }
-    })
+      },
+    });
   }
 
   create(recipe: Recipe) {
     this.recipeService.create(recipe).subscribe({
       next: (recipe: Recipe) => {
         this.selected = recipe;
+      },
+      error: (err: any) => {
+        console.error(err);
+      },
+    });
+  }
+
+  addToFavorites(userId: number, recipeId: number){
+    console.log(userId, recipeId);
+    this.recipeService.addToFavorites(userId, recipeId).subscribe({
+      next: () => {
+        this.router.navigateByUrl('/favorites')
       },
       error: (err: any) => {
         console.error(err);
@@ -67,14 +100,12 @@ export class RecipeComponent implements OnInit {
   }
 
   addNewIngredientToRecipe() {
-
     if (this.newRecipe) {
       this.newRecipe.ingredients.push(new RecipeHasIngredient());
     }
   }
 
-selectRecipe(recipe: Recipe) {
-  this.selected = recipe;
-}
-
+  selectRecipe(recipe: Recipe) {
+    this.selected = recipe;
+  }
 }

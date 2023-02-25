@@ -21,7 +21,7 @@
     </p>
   </div>
 
-  <button>Add to favorites!</button>
+  <button *ngIf="user" (click)="addToFavorites(user.id, selected.id)">Add to favorites!</button>
   <button (click)="selected = null">Back</button>
 </div>
 
