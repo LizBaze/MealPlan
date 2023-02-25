@@ -60,6 +60,19 @@ public class AuthServiceImpl implements AuthService {
 		}
 		return success;
 	}
+
+	@Override
+	public boolean removeRecipeFromFavorites(Recipe recipe, String username) {
+		boolean success = false;
+		User user = userRepo.findByUsername(username);
+		if (user != null && user.getRecipes().contains(recipe)) {
+			user.removeFavorite(recipe);
+			userRepo.saveAndFlush(user);
+			success = true;
+		}
+		
+		return success;
+	}
 	
 	
 

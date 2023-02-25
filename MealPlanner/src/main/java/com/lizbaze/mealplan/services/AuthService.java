@@ -9,5 +9,6 @@ public interface AuthService {
 	public User getUserById(int id);
 	public User getUserByUsername(String username);
 	public boolean addRecipeToFavorites(Recipe recipe, String username);
+	public boolean removeRecipeFromFavorites(Recipe recipe, String username);
 
 }

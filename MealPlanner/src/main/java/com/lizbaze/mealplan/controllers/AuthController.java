@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -76,6 +77,23 @@ public class AuthController {
 			res.setStatus(400);
 		}
 
+	}
+	
+	@DeleteMapping("users/{id}/favorites/{recipeId}")
+	public void removeRecipeFromFavorites(@PathVariable int id, @PathVariable int recipeId, HttpServletResponse res) {
+		User user = authService.getUserById(id);
+		Recipe recipe = recipeService.findById(recipeId);
+		if (user != null && recipe != null ) {
+			boolean success = authService.removeRecipeFromFavorites(recipe, user.getUsername());
+			if (success) {
+				res.setStatus(204);
+			} else {
+				res.setStatus(400);
+			}
+		} else {
+			res.setStatus(400);
+		}
+		
 	}
 
 }
