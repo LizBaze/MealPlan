@@ -6,6 +6,21 @@
 <button (click)="generateMealPlan(numMeals)">Submit</button>
 </div>
 
+<div *ngIf="mealPlan">
+  <h3>Your Meals</h3>
+  <ul>
+    <li *ngFor="let recipe of mealPlan">{{recipe.name}}</li>
+  </ul>
+
+  <h3>Grocery List</h3>
+  <ul>
+    <div *ngFor="let recipe of mealPlan">
+   <li *ngFor="let ingredient of recipe.ingredients">{{ingredient.ingredient.name}}</li>
+  </div>
+  </ul>
+
+</div>
+
 
 <ul *ngIf="user && !mealPlan">
   <li *ngFor="let recipe of user.recipes">{{recipe.name}}</li>
