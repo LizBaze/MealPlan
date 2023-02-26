@@ -4,7 +4,14 @@
 
 <div class="grid-container" *ngIf="!newRecipe && !selected">
   <div class="grid-item" *ngFor="let recipe of recipes">
-    <h3 (click)="selectRecipe(recipe)">{{ recipe.name }}</h3>
+    <div (click)="selected = recipe">
+      <img
+        src="https://www.pfchangs.com/images/default-source/menu/main-entres/buddhasfeaststirfried-1200x80012282b6c-8d11-4409-9188-fb5b5a56855e.jpg?sfvrsn=cef36ae0_3"
+        alt=""
+      />
+      <br>
+      <h4>{{recipe.name}}</h4>
+    </div>
   </div>
 </div>
 
@@ -22,18 +29,20 @@
   </div>
 
   <button
+    class="btn"
     *ngIf="user && checkIfRecipeInFavorites(selected)"
     (click)="removeFromFavorites(user.id, selected.id)"
   >
     Remove from favorites
   </button>
   <button
+    class="btn"
     *ngIf="user && !checkIfRecipeInFavorites(selected)"
     (click)="addToFavorites(user.id, selected.id)"
   >
     Add to favorites!
   </button>
-  <button (click)="selected = null">Back</button>
+  <button class="btn" (click)="selected = null">Back</button>
 </div>
 
 <div *ngIf="newRecipe">

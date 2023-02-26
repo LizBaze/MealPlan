@@ -4,6 +4,49 @@ input {
   margin: 5px;
 }
 
-button {
+
+
+.btn {
+  background-color: #DDAA00;
+  color: black;
+  border: none;
   margin: 5px;
+  padding: 5px 15px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+}
+
+.text{
+  border-radius: 5px;
+  border: none;
+}
+
+.text:focus{
+  border: 2px solid #DDAA00;
+  outline:none;
+}
+
+
+div {
+  background-color: #85AAAA;
+}
+
+body {
+  background-color: #173F4E;
+}
+
+.grid-container {
+	display: grid;
+	gap: 20px;
+	grid-template-columns: repeat(auto-fit, 200px);
+	grid-template-rows: auto;
+	place-items: center;
+	align-items: start;
+	padding-top: 20px;
+}
+
+.grid-item {
+	width: 200px;
 }
