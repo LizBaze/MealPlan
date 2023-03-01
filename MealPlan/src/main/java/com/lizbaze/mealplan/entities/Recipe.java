@@ -9,8 +9,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
@@ -26,6 +24,8 @@ public class Recipe {
 	private String description;
 
 	private Boolean hidden;
+	
+	private String image;
 
 	@OneToMany(mappedBy="recipe")
 	private List<RecipeHasIngredient> ingredients;
@@ -41,13 +41,14 @@ public class Recipe {
 	}
 
 	public Recipe(int id, String name, String description, List<RecipeHasIngredient> ingredients, List<Instruction> instructions,
-			User user, Boolean hidden) {
+			String image, User user, Boolean hidden) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.description = description;
 		this.ingredients = ingredients;
 		this.instructions = instructions;
+		this.image = image;
 		this.user = user;
 		this.hidden = hidden;
 	}
@@ -106,6 +107,14 @@ public class Recipe {
 
 	public void setHidden(Boolean hidden) {
 		this.hidden = hidden;
+	}
+
+	public String getImage() {
+		return image;
+	}
+
+	public void setImage(String image) {
+		this.image = image;
 	}
 
 	@Override

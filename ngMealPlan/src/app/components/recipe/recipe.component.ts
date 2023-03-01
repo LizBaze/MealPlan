@@ -1,3 +1,4 @@
+import { S3Service } from './../../services/s3.service';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
 import { IngredientService } from './../../services/ingredient.service';
@@ -25,12 +26,26 @@ export class RecipeComponent implements OnInit {
     private recipeService: RecipeService,
     private ingServ: IngredientService,
     private auth: AuthService,
-    private router: Router
+    private router: Router,
+    private s3: S3Service
   ) {}
 
   ngOnInit() {
     this.index();
     this.getUser();
+  }
+
+  onFileSelect(e: any) {
+    var newFile = null;
+    if (this.user && this.newRecipe) {
+
+      const fileName = this.user.username + this.newRecipe.name;
+      newFile = new File([e.target.files[0]], fileName);
+      this.s3.uploadFile(newFile);
+      this.newRecipe.image = fileName;
+    }
+
+
   }
 
   checkIfRecipeInFavorites(recipe: Recipe) {
@@ -48,7 +63,6 @@ export class RecipeComponent implements OnInit {
     this.auth.getLoggedInUser().subscribe({
       next: (user: User) => {
         this.user = user;
-
       },
       error: (err: any) => {
         console.error(err);
@@ -68,7 +82,6 @@ export class RecipeComponent implements OnInit {
     this.ingServ.index().subscribe({
       next: (ingredients: Ingredient[]) => {
         this.ingredients = ingredients;
-
       },
       error: (err: any) => {
         console.error(err);
@@ -89,7 +102,6 @@ export class RecipeComponent implements OnInit {
   }
 
   addToFavorites(userId: number, recipeId: number) {
-
     this.recipeService.addToFavorites(userId, recipeId).subscribe({
       next: () => {
         this.router.navigateByUrl('/favorites');
@@ -107,8 +119,8 @@ export class RecipeComponent implements OnInit {
       },
       error: (err: any) => {
         console.error(err);
-      }
-    })
+      },
+    });
   }
 
   initializeNewRecipe() {
