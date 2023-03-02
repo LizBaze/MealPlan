@@ -96,6 +96,7 @@ export class RecipeComponent implements OnInit {
       next: (recipe: Recipe) => {
         this.selected = recipe;
         this.newRecipe = null;
+        this.index();
       },
       error: (err: any) => {
         console.error(err);
