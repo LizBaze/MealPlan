@@ -1,0 +1,41 @@
+<button class="btn"  (click)="myRecipes()">My Recipes</button>
+
+<div class="grid-container" *ngIf="recipes && !selected && !editRecipe">
+  <div class="grid-item" *ngFor="let recipe of recipes">
+    <div (click)="selectRecipe(recipe)">
+      <img *ngIf="recipe.imageUrl" src="{{recipe.imageUrl}}" alt="" />
+      <img
+        *ngIf="!recipe.imageUrl"
+        src="https://www.pfchangs.com/images/default-source/menu/main-entres/buddhasfeaststirfried-1200x80012282b6c-8d11-4409-9188-fb5b5a56855e.jpg?sfvrsn=cef36ae0_3"
+        alt=""
+      />
+      <br />
+      <h4>{{ recipe.name }}</h4>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="selected">
+  <h3>{{ selected.name }}</h3>
+  <ul>
+    <li *ngFor="let recipeIngredient of selected.ingredients">
+      {{ recipeIngredient.amount }} {{ recipeIngredient.ingredient.name }}
+    </li>
+  </ul>
+  <div *ngFor="let instruction of selected.instructions">
+    <p>
+      {{ instruction.description }}
+    </p>
+  </div>
+
+  <button
+    class="btn"
+    *ngIf="user && user.id === selected.user.id"
+    (click)="selectRecipeToEdit(selected)"
+  >
+    Edit
+  </button>
+
+
+  <button class="btn" (click)="selected = null">Back</button>
+</div>
