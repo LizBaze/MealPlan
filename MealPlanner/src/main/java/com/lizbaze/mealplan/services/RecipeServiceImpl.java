@@ -105,4 +105,10 @@ public class RecipeServiceImpl implements RecipeService {
 		return recipeRepo.findByNameContaining(searchTerm);
 	}
 
+	@Override
+	public List<Recipe> findByUsername(String username) {
+		List<Recipe> recipes = recipeRepo.findByUser_Username(username);
+		return recipes;
+	}
+
 }

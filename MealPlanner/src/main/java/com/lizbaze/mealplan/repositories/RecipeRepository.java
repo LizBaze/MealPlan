@@ -9,6 +9,7 @@ import com.lizbaze.mealplan.entities.Recipe;
 public interface RecipeRepository extends JpaRepository<Recipe, Integer>{
 
 	public List<Recipe> findByNameContaining(String searchTerm);
+	public List<Recipe> findByUser_Username(String username);
 	
 	
 }

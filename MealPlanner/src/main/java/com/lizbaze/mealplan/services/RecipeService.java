@@ -11,5 +11,6 @@ public interface RecipeService {
 	public Recipe findById(int id);
 	public Recipe edit(int id, Recipe recipe, String username);
 	public List<Recipe> search(String searchTerm);
+	public List<Recipe> findByUsername(String username);
 
 }

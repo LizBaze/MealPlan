@@ -1,7 +1,5 @@
 package com.lizbaze.mealplan.controllers;
 
-import java.io.File;
-import java.io.IOException;
 import java.security.Principal;
 import java.util.List;
 
@@ -18,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.lizbaze.mealplan.entities.Recipe;
+import com.lizbaze.mealplan.entities.User;
+import com.lizbaze.mealplan.services.AuthService;
 import com.lizbaze.mealplan.services.RecipeService;
 
 @RestController
@@ -27,6 +27,8 @@ public class RecipeController {
 	
 	@Autowired
 	private RecipeService recipeServ;
+	@Autowired
+	private AuthService auth;
 	
 	
 	@GetMapping("recipes")
@@ -73,6 +75,19 @@ public class RecipeController {
 		}
 		
 		
+		return recipes;
+	}
+	
+	@GetMapping("users/{id}/recipes")
+	public List<Recipe> findByUser(@PathVariable int id, HttpServletResponse res) {
+			User user = auth.getUserById(id);
+			List<Recipe> recipes = recipeServ.findByUsername(user.getUsername());
+			
+			if (recipes != null) {
+				res.setStatus(200);
+			} else {
+				res.setStatus(400);
+			}
 		return recipes;
 	}
 
