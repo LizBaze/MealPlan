@@ -2,3 +2,10 @@ img {
   width: 200px;
   height: auto;
 }
+
+
+
+.search {
+  justify-content: right;
+  text-align: right;
+}

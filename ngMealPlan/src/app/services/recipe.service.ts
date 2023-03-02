@@ -51,17 +51,20 @@ export class RecipeService {
   }
 
   addToFavorites(userId: number, recipeId: number) {
-
     return this.http
       .put<void>(
-        this.url + 'api/users/' + userId + '/favorites/' + recipeId, null,
+        this.url + 'api/users/' + userId + '/favorites/' + recipeId,
+        null,
         this.getHttpOptions()
       )
       .pipe(
         catchError((err: any) => {
           console.error(err);
           return throwError(
-            () => new Error('RecipeService.addtoFavorites(): error adding recipe to favorites')
+            () =>
+              new Error(
+                'RecipeService.addtoFavorites(): error adding recipe to favorites'
+              )
           );
         })
       );
@@ -70,18 +73,30 @@ export class RecipeService {
   removeFromFavorites(userId: number, recipeId: number) {
     return this.http
       .delete<void>(
-        this.url + 'api/users/' + userId + '/favorites/' + recipeId, this.getHttpOptions()).pipe(
-          catchError((err: any) => {
-            console.error(err);
-            return throwError(
-              () => new Error('RecipeService.removeFromFavorites(): error removing recipe from favorites')
-            );
-          })
-        )
-     }
+        this.url + 'api/users/' + userId + '/favorites/' + recipeId,
+        this.getHttpOptions()
+      )
+      .pipe(
+        catchError((err: any) => {
+          console.error(err);
+          return throwError(
+            () =>
+              new Error(
+                'RecipeService.removeFromFavorites(): error removing recipe from favorites'
+              )
+          );
+        })
+      );
+  }
 
-     edit(recipe: Recipe) {
-      return this.http.put<Recipe>(this.url + "api/recipes/" + recipe.id, recipe, this.getHttpOptions()).pipe(
+  edit(recipe: Recipe) {
+    return this.http
+      .put<Recipe>(
+        this.url + 'api/recipes/' + recipe.id,
+        recipe,
+        this.getHttpOptions()
+      )
+      .pipe(
         catchError((err: any) => {
           console.error(err);
           return throwError(
@@ -89,6 +104,21 @@ export class RecipeService {
           );
         })
       );
-     }
+  }
 
+  search(searchTerm: string) {
+    return this.http
+      .get<Recipe[]>(
+        this.url + 'api/recipes/' + searchTerm,
+        this.getHttpOptions()
+      )
+      .pipe(
+        catchError((err: any) => {
+          console.error(err);
+          return throwError(
+            () => new Error('RecipeService.search(): error retrieving recipes')
+          );
+        })
+      );
+  }
 }

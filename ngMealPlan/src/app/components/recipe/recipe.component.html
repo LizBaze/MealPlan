@@ -1,11 +1,26 @@
-<div class="container">
-  <button
-    *ngIf="!editRecipe && !newRecipe && !selected"
-    class="btn btn-primary"
-    (click)="initializeNewRecipe()"
-  >
-    Upload New Recipe
-  </button>
+<div class="row">
+  <div class="col">
+    <button
+      *ngIf="!editRecipe && !newRecipe && !selected"
+      class="btn btn-primary"
+      (click)="initializeNewRecipe()"
+    >
+      Upload New Recipe
+    </button>
+  </div>
+  <div class="col"></div>
+  <div class="col search">
+
+      <input
+        class="text"
+        type="text"
+        name="search"
+        [(ngModel)]="userSearchTerm"
+      />
+      <button class="btn" (click)="search(userSearchTerm)">Search</button>
+
+
+  </div>
 </div>
 
 <div class="grid-container" *ngIf="!newRecipe && !selected && !editRecipe">

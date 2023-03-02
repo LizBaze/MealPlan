@@ -22,6 +22,7 @@ export class RecipeComponent implements OnInit {
   editRecipe: Recipe | null = null;
   selected: Recipe | null = null;
   user: User | null = null;
+  userSearchTerm: string = "";
 
   constructor(
     private recipeService: RecipeService,
@@ -93,6 +94,18 @@ export class RecipeComponent implements OnInit {
         console.error(err);
       },
     });
+  }
+
+  search(searchTerm:string) {
+    this.recipeService.search(searchTerm).subscribe({
+      next: (recipes: Recipe[]) => {
+        this.recipes = recipes;
+        this.userSearchTerm = "";
+      },
+      error: (err: any) => {
+        console.log(err);
+      }
+    })
   }
 
   create(recipe: Recipe) {
