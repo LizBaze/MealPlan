@@ -138,9 +138,21 @@ export class RecipeComponent implements OnInit {
     }
   }
 
+  removeInstructionFromRecipe(instruction: Instruction){
+    if (this.newRecipe) {
+      this.newRecipe.instructions = this.newRecipe.instructions.filter(obj => {return obj !== instruction})
+    }
+  }
+
   addNewIngredientToRecipe() {
     if (this.newRecipe) {
       this.newRecipe.ingredients.push(new RecipeHasIngredient());
+    }
+  }
+
+  removeIngredientFromRecipe(ingredient: RecipeHasIngredient) {
+    if (this.newRecipe) {
+      this.newRecipe.ingredients = this.newRecipe.ingredients.filter(obj => {return obj !== ingredient});
     }
   }
 
