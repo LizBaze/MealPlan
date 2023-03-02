@@ -81,4 +81,22 @@ public class RecipeServiceImpl implements RecipeService {
 		return recipe;
 	}
 
+	@Override
+	public Recipe edit(int id, Recipe recipe, String username) {
+		User user = userRepo.findByUsername(username);
+		
+		Recipe editRecipe = findById(id);
+		
+		if (editRecipe != null && user.equals(editRecipe.getUser())) {
+			editRecipe.setDescription(recipe.getDescription());
+			editRecipe.setHidden(recipe.getHidden());
+			editRecipe.setImageUrl(recipe.getImageUrl());
+			editRecipe.setIngredients(recipe.getIngredients());
+			editRecipe.setInstructions(recipe.getInstructions());
+			editRecipe.setName(recipe.getName());
+			recipeRepo.saveAndFlush(editRecipe);
+		}
+		return editRecipe;
+	}
+
 }

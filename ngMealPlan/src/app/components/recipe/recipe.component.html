@@ -80,7 +80,7 @@
     </div>
     <label for="amount">Amount:</label>
     <input type="text" name="amount" [(ngModel)]="ingredient.amount" />
-    <button class="btn" (click)="removeIngredientFromRecipe(ingredient)">Delete Ingredient</button>
+    <button class="btn" (click)="removeIngredientFromRecipe(ingredient)">Delete</button>
   </div>
   <button class="btn" (click)="addNewIngredientToRecipe()">Add Ingredient</button>
 
@@ -94,7 +94,7 @@
       rows="10"
       [(ngModel)]="instruction.description"
     ></textarea>
-    <button class="btn" (click)="removeInstructionFromRecipe(instruction)">Delete Step</button>
+    <button class="btn" (click)="removeInstructionFromRecipe(instruction)">Delete</button>
   </div>
 
   <button class="btn" (click)="addNewInstructionToRecipe()">Add Step</button>
