@@ -40,9 +40,10 @@ export class RecipeComponent implements OnInit {
     if (this.user && this.newRecipe) {
 
       const fileName = this.user.username + this.newRecipe.name;
+      this.newRecipe.imageUrl = "https://reciperylist.s3.us-east-2.amazonaws.com/" + fileName;
+      console.log(this.newRecipe);
       newFile = new File([e.target.files[0]], fileName);
       this.s3.uploadFile(newFile);
-      this.newRecipe.image = fileName;
     }
 
 
@@ -74,6 +75,7 @@ export class RecipeComponent implements OnInit {
     this.recipeService.index().subscribe({
       next: (recipes: Recipe[]) => {
         this.recipes = recipes;
+        console.log(recipes);
       },
       error: (err: any) => {
         console.error(err);
@@ -143,5 +145,6 @@ export class RecipeComponent implements OnInit {
 
   selectRecipe(recipe: Recipe) {
     this.selected = recipe;
+    console.log(recipe)
   }
 }

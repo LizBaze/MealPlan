@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.lizbaze.mealplan.entities.Recipe;
@@ -38,6 +37,7 @@ public class RecipeController {
 	@PostMapping("recipes")
 	public Recipe create(@RequestBody Recipe recipe, Principal principal, HttpServletResponse res) {
 		recipe = recipeServ.create(recipe, principal.getName());
+		
 		
 		if (recipe != null ) {
 			res.setStatus(201);

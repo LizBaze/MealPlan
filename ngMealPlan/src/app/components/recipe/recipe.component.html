@@ -7,8 +7,10 @@
 
 <div class="grid-container" *ngIf="!newRecipe && !selected">
   <div class="grid-item" *ngFor="let recipe of recipes">
-    <div (click)="selected = recipe">
-      <img
+    <div (click)="selectRecipe(recipe)">
+
+      <img *ngIf="recipe.imageUrl" src="https://reciperylist.s3.us-east-2.amazonaws.com/cats.png" alt="">
+      <img *ngIf="!recipe.imageUrl"
         src="https://www.pfchangs.com/images/default-source/menu/main-entres/buddhasfeaststirfried-1200x80012282b6c-8d11-4409-9188-fb5b5a56855e.jpg?sfvrsn=cef36ae0_3"
         alt=""
       />

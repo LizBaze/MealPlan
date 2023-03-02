@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -25,7 +26,8 @@ public class Recipe {
 
 	private Boolean hidden;
 	
-	private String image;
+	@Column(name="image_url")
+	private String imageUrl;
 
 	@OneToMany(mappedBy="recipe")
 	private List<RecipeHasIngredient> ingredients;
@@ -41,14 +43,14 @@ public class Recipe {
 	}
 
 	public Recipe(int id, String name, String description, List<RecipeHasIngredient> ingredients, List<Instruction> instructions,
-			String image, User user, Boolean hidden) {
+			String imageUrl, User user, Boolean hidden) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.description = description;
 		this.ingredients = ingredients;
 		this.instructions = instructions;
-		this.image = image;
+		this.imageUrl = imageUrl;
 		this.user = user;
 		this.hidden = hidden;
 	}
@@ -109,12 +111,12 @@ public class Recipe {
 		this.hidden = hidden;
 	}
 
-	public String getImage() {
-		return image;
+	public String getImageUrl() {
+		return imageUrl;
 	}
 
-	public void setImage(String image) {
-		this.image = image;
+	public void setImageUrl(String image) {
+		this.imageUrl = image;
 	}
 
 	@Override
