@@ -19,6 +19,7 @@ export class RecipeComponent implements OnInit {
   recipes: Recipe[] = [];
   ingredients: Ingredient[] = [];
   newRecipe: Recipe | null = null;
+  editRecipe: Recipe | null = null;
   selected: Recipe | null = null;
   user: User | null = null;
 
@@ -32,21 +33,21 @@ export class RecipeComponent implements OnInit {
 
   ngOnInit() {
     this.index();
-    this.getUser();
+    if (this.loggedIn()) {
+      this.getUser();
+    }
   }
 
-  onFileSelect(e: any) {
+  onFileSelect(e: any, recipe: Recipe) {
     var newFile = null;
-    if (this.user && this.newRecipe) {
+    if (this.user) {
+      const fileName = this.user.username + recipe.name;
+      recipe.imageUrl =
+        'https://reciperylist.s3.us-east-2.amazonaws.com/' + fileName;
 
-      const fileName = this.user.username + this.newRecipe.name;
-      this.newRecipe.imageUrl = "https://reciperylist.s3.us-east-2.amazonaws.com/" + fileName;
-      console.log(this.newRecipe);
       newFile = new File([e.target.files[0]], fileName);
       this.s3.uploadFile(newFile);
     }
-
-
   }
 
   checkIfRecipeInFavorites(recipe: Recipe) {
@@ -58,6 +59,10 @@ export class RecipeComponent implements OnInit {
       }
     }
     return false;
+  }
+
+  loggedIn(): boolean {
+    return this.auth.checkLogin();
   }
 
   getUser() {
@@ -75,7 +80,6 @@ export class RecipeComponent implements OnInit {
     this.recipeService.index().subscribe({
       next: (recipes: Recipe[]) => {
         this.recipes = recipes;
-        console.log(recipes);
       },
       error: (err: any) => {
         console.error(err);
@@ -126,38 +130,51 @@ export class RecipeComponent implements OnInit {
     });
   }
 
+  edit(recipe: Recipe) {
+    this.recipeService.edit(recipe).subscribe({
+      next: (updatedRecipe: Recipe) => {
+        this.editRecipe = null;
+        this.selected = updatedRecipe;
+        this.index();
+      },
+      error: (err: any) => {
+        console.error(err);
+      },
+    });
+  }
+
   initializeNewRecipe() {
     this.newRecipe = new Recipe();
     this.newRecipe.instructions.push(new Instruction());
     this.newRecipe.ingredients.push(new RecipeHasIngredient());
   }
 
-  addNewInstructionToRecipe() {
-    if (this.newRecipe) {
-      this.newRecipe.instructions.push(new Instruction());
-    }
+  addNewInstructionToRecipe(recipe: Recipe) {
+    recipe.instructions.push(new Instruction());
   }
 
-  removeInstructionFromRecipe(instruction: Instruction){
-    if (this.newRecipe) {
-      this.newRecipe.instructions = this.newRecipe.instructions.filter(obj => {return obj !== instruction})
-    }
+  removeInstructionFromRecipe(instruction: Instruction, recipe: Recipe) {
+    recipe.instructions = recipe.instructions.filter((obj) => {
+      return obj !== instruction;
+    });
   }
 
-  addNewIngredientToRecipe() {
-    if (this.newRecipe) {
-      this.newRecipe.ingredients.push(new RecipeHasIngredient());
-    }
+  addNewIngredientToRecipe(recipe: Recipe) {
+    recipe.ingredients.push(new RecipeHasIngredient());
   }
 
-  removeIngredientFromRecipe(ingredient: RecipeHasIngredient) {
-    if (this.newRecipe) {
-      this.newRecipe.ingredients = this.newRecipe.ingredients.filter(obj => {return obj !== ingredient});
-    }
+  removeIngredientFromRecipe(ingredient: RecipeHasIngredient, recipe: Recipe) {
+    recipe.ingredients = recipe.ingredients.filter((obj) => {
+      return obj !== ingredient;
+    });
   }
 
   selectRecipe(recipe: Recipe) {
     this.selected = recipe;
-    console.log(recipe)
+  }
+
+  selectRecipeToEdit(recipe: Recipe) {
+    this.selected = null;
+    this.editRecipe = recipe;
   }
 }

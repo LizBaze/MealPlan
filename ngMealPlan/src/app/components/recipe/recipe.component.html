@@ -5,7 +5,7 @@
 
 
 
-<div class="grid-container" *ngIf="!newRecipe && !selected">
+<div class="grid-container" *ngIf="!newRecipe && !selected && !editRecipe">
   <div class="grid-item" *ngFor="let recipe of recipes">
     <div (click)="selectRecipe(recipe)">
 
@@ -20,7 +20,72 @@
   </div>
 </div>
 
+<div *ngIf="editRecipe">
+  <label for="name">Name:</label>
+  <input type="text" name="name" [(ngModel)]="editRecipe.name" />
+  <br />
+  <label for="description">Description:</label>
+  <br />
+  <textarea
+    name="description"
+    [(ngModel)]="editRecipe.description"
+    cols="30"
+    rows="10"
+  ></textarea>
+
+  <h3>Ingredients</h3>
+  <div *ngFor="let ingredient of editRecipe.ingredients">
+    <div>
+      <label for="name">Ingredient:</label>
+      <input
+        type="text"
+        list="suggestions"
+        [(ngModel)]="ingredient.ingredient.name"
+      />
+      <datalist id="suggestions">
+        <div *ngFor="let ing of ingredients">
+          <option name="name">{{ ing.name }}</option>
+        </div>
+      </datalist>
+    </div>
+    <label for="amount">Amount:</label>
+    <input type="text" name="amount" [(ngModel)]="ingredient.amount" />
+    <button class="btn" (click)="removeIngredientFromRecipe(ingredient, editRecipe)">Delete</button>
+  </div>
+  <button class="btn" (click)="addNewIngredientToRecipe(editRecipe)">Add Ingredient</button>
+
+  <h3>Instructions</h3>
+  <div *ngFor="let instruction of editRecipe.instructions; let i = index">
+    <label for="description">Step {{ i + 1 }} </label>
+    <br />
+    <textarea
+      name="description"
+      cols="30"
+      rows="10"
+      [(ngModel)]="instruction.description"
+    ></textarea>
+    <button class="btn" (click)="removeInstructionFromRecipe(instruction, editRecipe)">Delete</button>
+  </div>
+
+  <button class="btn" (click)="addNewInstructionToRecipe(editRecipe)">Add Step</button>
+
+  <label>
+    <input type="file" name="fileUpload" (change)="onFileSelect($event, editRecipe)" />
+  </label>
+
+  <button class="btn" (click)="edit(editRecipe)">Submit</button>
+</div>
+
+
+
 <div *ngIf="selected">
+  <button
+    class="btn"
+    *ngIf="user && user.id === selected.user.id"
+    (click)="selectRecipeToEdit(selected)"
+  >
+    Edit
+  </button>
   <h3>{{ selected.name }}</h3>
   <ul>
     <li *ngFor="let recipeIngredient of selected.ingredients">
@@ -80,9 +145,9 @@
     </div>
     <label for="amount">Amount:</label>
     <input type="text" name="amount" [(ngModel)]="ingredient.amount" />
-    <button class="btn" (click)="removeIngredientFromRecipe(ingredient)">Delete</button>
+    <button class="btn" (click)="removeIngredientFromRecipe(ingredient, newRecipe)">Delete</button>
   </div>
-  <button class="btn" (click)="addNewIngredientToRecipe()">Add Ingredient</button>
+  <button class="btn" (click)="addNewIngredientToRecipe(newRecipe)">Add Ingredient</button>
 
   <h3>Instructions</h3>
   <div *ngFor="let instruction of newRecipe.instructions; let i = index">
@@ -94,13 +159,13 @@
       rows="10"
       [(ngModel)]="instruction.description"
     ></textarea>
-    <button class="btn" (click)="removeInstructionFromRecipe(instruction)">Delete</button>
+    <button class="btn" (click)="removeInstructionFromRecipe(instruction, newRecipe)">Delete</button>
   </div>
 
-  <button class="btn" (click)="addNewInstructionToRecipe()">Add Step</button>
+  <button class="btn" (click)="addNewInstructionToRecipe(newRecipe)">Add Step</button>
 
   <label>
-    <input type="file" name="fileUpload" (change)="onFileSelect($event)" />
+    <input type="file" name="fileUpload" (change)="onFileSelect($event, newRecipe)" />
   </label>
 
   <button class="btn" (click)="create(newRecipe)">Submit</button>

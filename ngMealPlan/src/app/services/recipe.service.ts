@@ -80,5 +80,15 @@ export class RecipeService {
         )
      }
 
+     edit(recipe: Recipe) {
+      return this.http.put<Recipe>(this.url + "api/recipes/" + recipe.id, recipe, this.getHttpOptions()).pipe(
+        catchError((err: any) => {
+          console.error(err);
+          return throwError(
+            () => new Error('RecipeService.edit(): error updating recipe')
+          );
+        })
+      );
+     }
 
 }
