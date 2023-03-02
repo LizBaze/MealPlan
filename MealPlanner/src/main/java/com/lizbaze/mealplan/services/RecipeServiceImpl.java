@@ -99,4 +99,10 @@ public class RecipeServiceImpl implements RecipeService {
 		return editRecipe;
 	}
 
+	@Override
+	public List<Recipe> search(String searchTerm) {
+		
+		return recipeRepo.findByNameContaining(searchTerm);
+	}
+
 }

@@ -63,5 +63,17 @@ public class RecipeController {
 		return recipe;
 	}
 	
+	@GetMapping("recipes/{searchTerm}")
+	public List<Recipe> search(@PathVariable String searchTerm, HttpServletResponse res) {
+		List<Recipe> recipes = recipeServ.search(searchTerm);
+		if (recipes != null) {
+			res.setStatus(200);
+		} else {
+			res.setStatus(400);
+		}
+		
+		
+		return recipes;
+	}
 
 }

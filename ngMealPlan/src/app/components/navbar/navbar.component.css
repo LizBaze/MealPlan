@@ -1,9 +1,21 @@
 nav {
-  background-color: #85AAAA !important;
+  background-color: #173F4E !important;
+  color: white !important;
+}
+
+div {
+  background-color: #173F4E !important;
+  color: white;
 }
 
 a {
   padding: 6px !important;
+  color: white;
+}
+
+.nav-link {
+  color: white !important;
+  margin: 3px;
 }
 
 

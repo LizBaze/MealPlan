@@ -10,5 +10,6 @@ public interface RecipeService {
 	public Recipe create(Recipe recipe, String username);
 	public Recipe findById(int id);
 	public Recipe edit(int id, Recipe recipe, String username);
+	public List<Recipe> search(String searchTerm);
 
 }

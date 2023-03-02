@@ -4,10 +4,25 @@ input {
   margin: 5px;
 }
 
+div {
+  margin: 5px;
+}
 
 
 .btn {
   background-color: #DDAA00;
+  color: black;
+  border: none;
+  margin: 5px;
+  padding: 5px 15px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+}
+
+.danger {
+  background-color: red;
   color: black;
   border: none;
   margin: 5px;
@@ -34,7 +49,7 @@ div {
 }
 
 body {
-  background-color: #173F4E;
+  background-color: #85AAAA;
 }
 
 .grid-container {
@@ -43,7 +58,7 @@ body {
 	grid-template-columns: repeat(auto-fit, 200px);
 	grid-template-rows: auto;
 	place-items: center;
-	align-items: start;
+  justify-content: center;
 	padding-top: 20px;
 }
 
