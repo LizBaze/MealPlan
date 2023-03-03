@@ -40,6 +40,11 @@ public class User {
 	@OneToMany(mappedBy = "user")
 	@JsonIgnoreProperties({"user", "ingredients", "instructions"})
 	private List<Recipe> createdRecipes;
+	
+	@ManyToMany
+	@JoinTable(name="mealplan", joinColumns = @JoinColumn(name="user_id"), inverseJoinColumns=@JoinColumn(name="recipe_id"))
+	@JsonIgnoreProperties({"user"})
+	private List<Recipe> mealPlan;
 
 	public User() {
 	}
@@ -120,6 +125,14 @@ public class User {
 		this.createdRecipes = createdRecipes;
 	}
 
+	public List<Recipe> getMealPlan() {
+		return mealPlan;
+	}
+
+	public void setMealPlan(List<Recipe> mealPlan) {
+		this.mealPlan = mealPlan;
+	}
+
 	@Override
 	public int hashCode() {
 		return Objects.hash(id);
@@ -155,6 +168,21 @@ public class User {
 	public void removeFavorite(Recipe recipe) {
 		if (recipes != null && recipes.contains(recipe)) {
 			recipes.remove(recipe);
+		}
+	}
+	
+	public void addRecipeToMealPlan(Recipe recipe) {
+		if (mealPlan == null) {
+			mealPlan = new ArrayList<>();
+		}
+		if (! mealPlan.contains(recipe)) {
+			mealPlan.add(recipe);
+		}
+	}
+	
+	public void removeRecipeFromMealPlan(Recipe recipe) {
+		if (mealPlan != null && mealPlan.contains(recipe)) {
+			mealPlan.remove(recipe);
 		}
 	}
 	

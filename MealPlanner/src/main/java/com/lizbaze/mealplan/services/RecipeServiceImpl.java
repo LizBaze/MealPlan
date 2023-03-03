@@ -1,5 +1,6 @@
 package com.lizbaze.mealplan.services;
 
+import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 
@@ -109,6 +110,36 @@ public class RecipeServiceImpl implements RecipeService {
 	public List<Recipe> findByUsername(String username) {
 		List<Recipe> recipes = recipeRepo.findByUser_Username(username);
 		return recipes;
+	}
+
+	@Override
+	public boolean addRecipeToMealPlan(String username, int recipeId) {
+		boolean added = false;
+		User user = userRepo.findByUsername(username);
+		Optional<Recipe> recipeOpt = recipeRepo.findById(recipeId);
+		if (user != null && recipeOpt.isPresent()) {
+			Recipe recipe = recipeOpt.get();
+			user.addRecipeToMealPlan(recipe);
+			userRepo.saveAndFlush(user);
+			added = true;
+		}
+		
+		return added;
+	}
+
+	@Override
+	public boolean clearMealPlan(String username) {
+		boolean result = false;
+		User user = userRepo.findByUsername(username);
+		if (user != null) {
+			Iterator<Recipe> iter = user.getMealPlan().iterator();
+			while (iter.hasNext()) {
+				iter.next();
+				iter.remove();
+			}
+			result = true;
+		}
+		return result;
 	}
 
 }
