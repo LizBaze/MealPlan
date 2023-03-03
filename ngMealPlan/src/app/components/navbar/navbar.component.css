@@ -18,4 +18,9 @@ a {
   margin: 3px;
 }
 
+.right{
+  margin-right: 5px;
+  margin-left: auto;
+}
+
 
