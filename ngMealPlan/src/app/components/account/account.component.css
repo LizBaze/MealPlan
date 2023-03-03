@@ -3,6 +3,10 @@ img {
   height: auto;
 }
 
+.img-holder {
+  justify-content: center;
+}
+
 
 .bigImage {
   width: 65%;

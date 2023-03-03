@@ -116,7 +116,13 @@
   <button class="btn" (click)="editRecipe = null">Cancel</button>
 </div>
 
-<div *ngIf="selected">
+<div class="container" *ngIf="selected">
+  <img *ngIf="selected.imageUrl" src="{{ selected.imageUrl }}" alt="" />
+      <img
+        *ngIf="!selected.imageUrl"
+        src="https://www.pfchangs.com/images/default-source/menu/main-entres/buddhasfeaststirfried-1200x80012282b6c-8d11-4409-9188-fb5b5a56855e.jpg?sfvrsn=cef36ae0_3"
+        alt=""
+      />
   <h3>{{ selected.name }}</h3>
   <ul>
     <li *ngFor="let recipeIngredient of selected.ingredients">

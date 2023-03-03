@@ -12,7 +12,7 @@
 <div class="container" *ngIf="recipes && !selected && !editRecipe">
   <div class="grid-container">
     <div class="grid-item" *ngFor="let recipe of recipes">
-      <div (click)="selectRecipe(recipe)">
+      <div class="img-holder" (click)="selectRecipe(recipe)">
         <img *ngIf="recipe.imageUrl" src="{{ recipe.imageUrl }}" alt="" />
         <img
           *ngIf="!recipe.imageUrl"
