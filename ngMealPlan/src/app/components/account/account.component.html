@@ -2,6 +2,13 @@
   My Recipes
 </button>
 
+<div
+  *ngIf="user && !selected && !editRecipe && !recipes"
+  class="row h-100 justify-content-center align-items-center text-center"
+>
+
+</div>
+
 <div class="container" *ngIf="recipes && !selected && !editRecipe">
   <div class="grid-container">
     <div class="grid-item" *ngFor="let recipe of recipes">

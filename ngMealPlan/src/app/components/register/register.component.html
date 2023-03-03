@@ -1,13 +1,57 @@
+<div class="container center top">
+  <h3>Sign up</h3>
 
-<input type="text" name="username" [(ngModel)]="user.username">
-<br>
-<input type="text" name="password" [(ngModel)]="user.password">
-<br>
-<button (click)="register(user)" class="btn btn-primary">Submit</button>
-<br>
-<br>
-<input type="text" name="username" [(ngModel)]="logInUser.username">
-<br>
-<input type="text" name="password" [(ngModel)]="logInUser.password">
-<br>
-<button (click)="logIn(logInUser.username, logInUser.password)" class="btn btn-primary">Submit</button>
+  <input
+    class="text"
+    type="text"
+    name="username"
+    placeholder="Username"
+    [(ngModel)]="user.username"
+  />
+  <br />
+  <input
+    class="text"
+    type="password"
+    name="password"
+    placeholder="Password"
+    [(ngModel)]="user.password"
+  />
+  <br />
+  <input
+  class="text"
+  type="password"
+  name="confirm"
+  placeholder="Confirm password"
+  [(ngModel)]="confirmPassword"
+  />
+  <label for="confirm" *ngIf="!passwordMatch" class="warning">Passwords do not match</label>
+  <br/>
+  <button (click)="register(user)" class="btn">Submit</button>
+  <br />
+</div>
+
+<br />
+
+<div class="container center">
+  <h3>Sign In</h3>
+  <input
+    class="text"
+    type="text"
+    name="username"
+    placeholder="Username"
+    [(ngModel)]="logInUser.username"
+  />
+  <br />
+  <input
+    class="text"
+    type="text"
+    name="password"
+    placeholder="Password"
+    [(ngModel)]="logInUser.password"
+  />
+  <label class="warning" for="password" *ngIf="loginFailure">Invalid username or password</label>
+  <br />
+  <button (click)="logIn(logInUser.username, logInUser.password)" class="btn">
+    Submit
+  </button>
+</div>
