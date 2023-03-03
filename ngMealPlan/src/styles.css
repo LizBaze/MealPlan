@@ -65,7 +65,7 @@ body {
 .grid-container {
 	display: grid;
 	gap: 20px;
-	grid-template-columns: repeat(auto-fit, 200px);
+	grid-template-columns: repeat(auto-fit, 85%);
 	grid-template-rows: auto;
 	place-items: center;
   justify-content: center;
@@ -73,5 +73,8 @@ body {
 }
 
 .grid-item {
-	width: 200px;
+	width: 90%;
+  justify-content: center;
+  text-align: center;
+  border-radius: 10px;
 }

@@ -1,5 +1,5 @@
 img {
-  width: 200px;
+  width: 100%;
   height: auto;
 }
 
@@ -9,23 +9,4 @@ img {
   height: auto;
 }
 
-Aligner {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	margin-top: 2%;
-}
 
-.Aligner-item {
-	width: 75%;
-	margin: 0px auto;
-
-
-
-}
-
-.card-header-img {
-	background-color: #6EBEB3;
-	margin: 20px auto;
-	padding: 10% 10% 10% 10%;
-}

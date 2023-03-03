@@ -8,7 +8,7 @@
       Upload New Recipe
     </button>
   </div>
-  <div class="col"></div>
+
   <div class="col search">
 
       <input
@@ -25,7 +25,7 @@
 
 <div class="grid-container" *ngIf="!newRecipe && !selected && !editRecipe">
   <div class="grid-item" *ngFor="let recipe of recipes">
-    <div (click)="selectRecipe(recipe)">
+    <div class="image-holder" (click)="selectRecipe(recipe)">
       <img *ngIf="recipe.imageUrl" src="{{ recipe.imageUrl }}" alt="" />
       <img
         *ngIf="!recipe.imageUrl"
