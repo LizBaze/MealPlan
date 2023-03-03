@@ -1,31 +1,48 @@
-<button class="btn"  (click)="myRecipes()">My Recipes</button>
+<button *ngIf="!selected && !this.recipes" class="btn" (click)="myRecipes()">
+  My Recipes
+</button>
 
-<div class="grid-container" *ngIf="recipes && !selected && !editRecipe">
-  <div class="grid-item" *ngFor="let recipe of recipes">
-    <div (click)="selectRecipe(recipe)">
-      <img *ngIf="recipe.imageUrl" src="{{recipe.imageUrl}}" alt="" />
-      <img
-        *ngIf="!recipe.imageUrl"
-        src="https://www.pfchangs.com/images/default-source/menu/main-entres/buddhasfeaststirfried-1200x80012282b6c-8d11-4409-9188-fb5b5a56855e.jpg?sfvrsn=cef36ae0_3"
-        alt=""
-      />
-      <br />
-      <h4>{{ recipe.name }}</h4>
+<div class="container" *ngIf="recipes && !selected && !editRecipe">
+  <div class="grid-container">
+    <div class="grid-item" *ngFor="let recipe of recipes">
+      <div (click)="selectRecipe(recipe)">
+        <img *ngIf="recipe.imageUrl" src="{{ recipe.imageUrl }}" alt="" />
+        <img
+          *ngIf="!recipe.imageUrl"
+          src="https://www.pfchangs.com/images/default-source/menu/main-entres/buddhasfeaststirfried-1200x80012282b6c-8d11-4409-9188-fb5b5a56855e.jpg?sfvrsn=cef36ae0_3"
+          alt=""
+        />
+        <br />
+        <h4>{{ recipe.name }}</h4>
+      </div>
     </div>
   </div>
+  <button class="btn" (click)="recipes = null">Back</button>
 </div>
 
-<div *ngIf="selected">
+<div class="container" *ngIf="selected">
+  <img
+    class="bigImage"
+    *ngIf="selected.imageUrl"
+    src="{{ selected.imageUrl }}"
+    alt=""
+  />
+  <img
+    class="bigImage"
+    *ngIf="!selected.imageUrl"
+    src="https://www.pfchangs.com/images/default-source/menu/main-entres/buddhasfeaststirfried-1200x80012282b6c-8d11-4409-9188-fb5b5a56855e.jpg?sfvrsn=cef36ae0_3"
+    alt=""
+  />
   <h3>{{ selected.name }}</h3>
+  <h4>Ingredients</h4>
   <ul>
     <li *ngFor="let recipeIngredient of selected.ingredients">
       {{ recipeIngredient.amount }} {{ recipeIngredient.ingredient.name }}
     </li>
   </ul>
-  <div *ngFor="let instruction of selected.instructions">
-    <p>
-      {{ instruction.description }}
-    </p>
+  <h4>Instructions</h4>
+  <div *ngFor="let instruction of selected.instructions; let i = index">
+    <p>{{ i + 1 }}. {{ instruction.description }}</p>
   </div>
 
   <button
@@ -36,6 +53,83 @@
     Edit
   </button>
 
-
   <button class="btn" (click)="selected = null">Back</button>
+</div>
+
+<div *ngIf="editRecipe">
+  <label for="name">Name:</label>
+  <input type="text" name="name" [(ngModel)]="editRecipe.name" />
+  <br />
+  <label>
+    Image:
+    <input
+      type="file"
+      name="fileUpload"
+      (change)="onFileSelect($event, editRecipe)"
+    />
+  </label>
+  <br />
+  <label for="description">Description:</label>
+  <br />
+  <textarea
+    name="description"
+    [(ngModel)]="editRecipe.description"
+    cols="30"
+    rows="10"
+  ></textarea>
+
+  <h3>Ingredients</h3>
+  <div *ngFor="let ingredient of editRecipe.ingredients">
+    <div>
+      <label for="name">Ingredient:</label>
+      <input
+        type="text"
+        list="suggestions"
+        [(ngModel)]="ingredient.ingredient.name"
+      />
+
+      <datalist id="suggestions">
+        <div *ngFor="let ing of ingredients">
+          <option name="name">{{ ing.name }}</option>
+        </div>
+      </datalist>
+    </div>
+    <label for="amount">Amount:</label>
+    <input type="text" name="amount" [(ngModel)]="ingredient.amount" />
+    <button
+      class="btn danger"
+      (click)="removeIngredientFromRecipe(ingredient, editRecipe)"
+    >
+      X
+    </button>
+  </div>
+  <button class="btn" (click)="addNewIngredientToRecipe(editRecipe)">
+    Add Ingredient
+  </button>
+
+  <h3>Instructions</h3>
+  <div *ngFor="let instruction of editRecipe.instructions; let i = index">
+    <label for="description">Step {{ i + 1 }} </label>
+    <br />
+    <textarea
+      name="description"
+      cols="30"
+      rows="10"
+      [(ngModel)]="instruction.description"
+    ></textarea>
+    <button
+      class="btn danger"
+      (click)="removeInstructionFromRecipe(instruction, editRecipe)"
+    >
+      X
+    </button>
+  </div>
+
+  <button class="btn" (click)="addNewInstructionToRecipe(editRecipe)">
+    Add Step
+  </button>
+  <br />
+
+  <button class="btn" (click)="edit(editRecipe)">Submit</button>
+  <button class="btn" (click)="editRecipe = null">Cancel</button>
 </div>

@@ -21,6 +21,11 @@ div {
   font-size: 16px;
 }
 
+.btn:hover {
+  background-color: #DDAA00;
+  color: black;
+}
+
 .danger {
   background-color: red;
   color: black;
@@ -31,6 +36,11 @@ div {
   text-decoration: none;
   display: inline-block;
   font-size: 16px;
+}
+
+.danger:hover {
+  background-color: red;
+  color: black;
 }
 
 .text{

@@ -121,4 +121,19 @@ export class RecipeService {
         })
       );
   }
+
+  findByUser(id: number) {
+    return this.http.get<Recipe[]>(
+      this.url + 'api/users/' + id + "/recipes", this.getHttpOptions()).pipe(
+        catchError((err: any) => {
+          console.error(err);
+          return throwError(
+            () => new Error('RecipeService.findByUser(): error retrieving recipes')
+          );
+        })
+      );
+  }
+
+
+
 }

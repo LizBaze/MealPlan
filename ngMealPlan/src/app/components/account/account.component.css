@@ -2,3 +2,9 @@ img {
   width: 200px;
   height: auto;
 }
+
+
+.bigImage {
+  width: 65%;
+  height: auto;
+}

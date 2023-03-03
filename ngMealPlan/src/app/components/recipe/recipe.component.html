@@ -123,9 +123,9 @@
       {{ recipeIngredient.amount }} {{ recipeIngredient.ingredient.name }}
     </li>
   </ul>
-  <div *ngFor="let instruction of selected.instructions">
+  <div *ngFor="let instruction of selected.instructions, let i = index">
     <p>
-      {{ instruction.description }}
+      {{i + 1}}. {{ instruction.description }}
     </p>
   </div>
 
