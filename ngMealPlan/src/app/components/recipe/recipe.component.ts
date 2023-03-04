@@ -5,10 +5,11 @@ import { IngredientService } from './../../services/ingredient.service';
 import { Ingredient } from './../../models/ingredient';
 import { Instruction } from './../../models/instruction';
 import { RecipeService } from './../../services/recipe.service';
-import { Component, OnInit } from '@angular/core';
+import { ApplicationRef, ChangeDetectorRef, Component, ElementRef, NgZone, OnInit, ViewChild } from '@angular/core';
 import { Recipe } from 'src/app/models/recipe';
 import { RecipeHasIngredient } from 'src/app/models/recipe-has-ingredient';
 import { User } from 'src/app/models/user';
+import { timeout } from 'rxjs';
 
 @Component({
   selector: 'app-recipe',
@@ -22,14 +23,18 @@ export class RecipeComponent implements OnInit {
   editRecipe: Recipe | null = null;
   selected: Recipe | null = null;
   user: User | null = null;
-  userSearchTerm: string = "";
+  userSearchTerm: string = '';
+  fileTooLarge = false;
+
+
 
   constructor(
     private recipeService: RecipeService,
     private ingServ: IngredientService,
     private auth: AuthService,
     private router: Router,
-    private s3: S3Service
+    private s3: S3Service,
+    private changeDetect: ChangeDetectorRef
   ) {}
 
   ngOnInit() {
@@ -40,6 +45,17 @@ export class RecipeComponent implements OnInit {
   }
 
   onFileSelect(e: any, recipe: Recipe) {
+    if (e.target.files[0].size > 250000) {
+      this.fileTooLarge = true;
+      console.log(this.fileTooLarge);
+      this.changeDetect.detectChanges();
+
+
+      return;
+    } else {
+      this.fileTooLarge = false;
+    }
+
     var newFile = null;
     if (this.user) {
       const fileName = this.user.username + recipe.name;
@@ -96,16 +112,16 @@ export class RecipeComponent implements OnInit {
     });
   }
 
-  search(searchTerm:string) {
+  search(searchTerm: string) {
     this.recipeService.search(searchTerm).subscribe({
       next: (recipes: Recipe[]) => {
         this.recipes = recipes;
-        this.userSearchTerm = "";
+        this.userSearchTerm = '';
       },
       error: (err: any) => {
         console.log(err);
-      }
-    })
+      },
+    });
   }
 
   create(recipe: Recipe) {

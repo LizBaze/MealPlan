@@ -10,16 +10,13 @@
   </div>
 
   <div class="col search">
-
-      <input
-        class="text"
-        type="text"
-        name="search"
-        [(ngModel)]="userSearchTerm"
-      />
-      <button class="btn" (click)="search(userSearchTerm)">Search</button>
-
-
+    <input
+      class="text"
+      type="text"
+      name="search"
+      [(ngModel)]="userSearchTerm"
+    />
+    <button class="btn" (click)="search(userSearchTerm)">Search</button>
   </div>
 </div>
 
@@ -38,22 +35,29 @@
   </div>
 </div>
 
-<div *ngIf="editRecipe">
+<div class="container" *ngIf="editRecipe">
   <label for="name">Name:</label>
-  <input type="text" name="name" [(ngModel)]="editRecipe.name" />
+  <input class="text" type="text" name="name" [(ngModel)]="editRecipe.name" />
   <br />
-  <label>
-    Image:
-    <input
-      type="file"
-      name="fileUpload"
-      (change)="onFileSelect($event, editRecipe)"
-    />
-  </label>
+
+  <label for="fileUpload">Image:</label>
+  <input
+    #fileUploadBox
+    class="text"
+    type="file"
+    name="fileUpload"
+    (change)="onFileSelect($event, editRecipe)"
+  />
+
+  <br *ngIf="fileTooLarge" />
+  <label *ngIf="fileTooLarge" for="fileUpload" class="warning"
+    >Image size must be 250kb or less</label
+  >
   <br />
   <label for="description">Description:</label>
   <br />
   <textarea
+    class="text text-area"
     name="description"
     [(ngModel)]="editRecipe.description"
     cols="30"
@@ -65,6 +69,7 @@
     <div>
       <label for="name">Ingredient:</label>
       <input
+        class="text"
         type="text"
         list="suggestions"
         [(ngModel)]="ingredient.ingredient.name"
@@ -77,7 +82,12 @@
       </datalist>
     </div>
     <label for="amount">Amount:</label>
-    <input type="text" name="amount" [(ngModel)]="ingredient.amount" />
+    <input
+      class="text"
+      type="text"
+      name="amount"
+      [(ngModel)]="ingredient.amount"
+    />
     <button
       class="btn danger"
       (click)="removeIngredientFromRecipe(ingredient, editRecipe)"
@@ -94,6 +104,7 @@
     <label for="description">Step {{ i + 1 }} </label>
     <br />
     <textarea
+      class="text text-area"
       name="description"
       cols="30"
       rows="10"
@@ -118,21 +129,19 @@
 
 <div class="container" *ngIf="selected">
   <img *ngIf="selected.imageUrl" src="{{ selected.imageUrl }}" alt="" />
-      <img
-        *ngIf="!selected.imageUrl"
-        src="https://www.pfchangs.com/images/default-source/menu/main-entres/buddhasfeaststirfried-1200x80012282b6c-8d11-4409-9188-fb5b5a56855e.jpg?sfvrsn=cef36ae0_3"
-        alt=""
-      />
+  <img
+    *ngIf="!selected.imageUrl"
+    src="https://www.pfchangs.com/images/default-source/menu/main-entres/buddhasfeaststirfried-1200x80012282b6c-8d11-4409-9188-fb5b5a56855e.jpg?sfvrsn=cef36ae0_3"
+    alt=""
+  />
   <h3>{{ selected.name }}</h3>
   <ul>
     <li *ngFor="let recipeIngredient of selected.ingredients">
       {{ recipeIngredient.amount }} {{ recipeIngredient.ingredient.name }}
     </li>
   </ul>
-  <div *ngFor="let instruction of selected.instructions, let i = index">
-    <p>
-      {{i + 1}}. {{ instruction.description }}
-    </p>
+  <div *ngFor="let instruction of selected.instructions; let i = index">
+    <p>{{ i + 1 }}. {{ instruction.description }}</p>
   </div>
 
   <button
@@ -160,23 +169,30 @@
   <button class="btn" (click)="selected = null">Back</button>
 </div>
 
-<div *ngIf="newRecipe">
+<div class="container" *ngIf="newRecipe">
   <label for="name">Name:</label>
-  <input type="text" name="name" [(ngModel)]="newRecipe.name" />
+  <input class="text" type="text" name="name" [(ngModel)]="newRecipe.name" />
   <br />
 
   <label>
     Image:
     <input
+      class="text"
       type="file"
       name="fileUpload"
       (change)="onFileSelect($event, newRecipe)"
     />
   </label>
+  <br *ngIf="fileTooLarge" />
+  <label *ngIf="fileTooLarge" for="fileUpload" class="warning"
+    >Image size must be 250kb or less</label
+  >
+
   <br />
   <label for="description">Description:</label>
   <br />
   <textarea
+    class="text text-area"
     name="description"
     [(ngModel)]="newRecipe.description"
     cols="30"
@@ -188,6 +204,7 @@
     <div>
       <label for="name">Ingredient:</label>
       <input
+        class="text"
         type="text"
         list="suggestions"
         [(ngModel)]="ingredient.ingredient.name"
@@ -200,7 +217,12 @@
       </datalist>
     </div>
     <label for="amount">Amount:</label>
-    <input type="text" name="amount" [(ngModel)]="ingredient.amount" />
+    <input
+      class="text"
+      type="text"
+      name="amount"
+      [(ngModel)]="ingredient.amount"
+    />
     <button
       class="btn danger"
       (click)="removeIngredientFromRecipe(ingredient, newRecipe)"
@@ -217,6 +239,7 @@
     <label for="description">Step {{ i + 1 }} </label>
     <br />
     <textarea
+      class="text text-area"
       name="description"
       cols="30"
       rows="10"
