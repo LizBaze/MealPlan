@@ -37,6 +37,17 @@ export class RecipeService {
     );
   }
 
+  findFavorites(): Observable<Recipe[]> {
+    return this.http.get<Recipe[]>(this.url + "api/users/favorites", this.getHttpOptions()).pipe(
+      catchError((err: any) => {
+        console.error(err);
+        return throwError(
+          () => new Error('RecipeService.ifindFavorites(): error retrieving favorites')
+        );
+      })
+    )
+  }
+
   create(recipe: Recipe) {
     return this.http
       .post<Recipe>(this.url + 'api/recipes', recipe, this.getHttpOptions())

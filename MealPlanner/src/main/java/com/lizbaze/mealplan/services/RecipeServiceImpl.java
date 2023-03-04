@@ -55,9 +55,11 @@ public class RecipeServiceImpl implements RecipeService {
 			for (RecipeHasIngredient rHI : recipe.getIngredients()) {
 				Ingredient ingredient = ingredientRepo.findByName(rHI.getIngredient().getName());
 				if ( ingredient == null ) {
-					ingredientRepo.saveAndFlush(rHI.getIngredient());
-				} 
-				RecipeHasIngredientId id = new RecipeHasIngredientId(recipe.getId(), rHI.getIngredient().getId());
+				ingredient = ingredientRepo.saveAndFlush(rHI.getIngredient());
+				} else {
+					rHI.setIngredient(ingredient);
+				}
+				RecipeHasIngredientId id = new RecipeHasIngredientId(recipe.getId(), ingredient.getId());
 				rHI.setId(id);
 				rHI.setRecipe(recipe);
 				rhiRepo.saveAndFlush(rHI);

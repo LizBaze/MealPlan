@@ -24,5 +24,5 @@
 </div>
 
 <ul *ngIf="user && !mealPlan">
-  <li *ngFor="let recipe of user.recipes">{{ recipe.name }}</li>
+  <li *ngFor="let recipe of favorites">{{ recipe.name }}</li>
 </ul>
