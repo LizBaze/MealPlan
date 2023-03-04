@@ -79,6 +79,7 @@ export class AccountComponent implements OnInit {
     this.auth.getLoggedInUser().subscribe({
       next: (user: User) => {
         this.user = user;
+        this.myRecipes();
       },
       error: (err: any) => {
         console.error(err);
