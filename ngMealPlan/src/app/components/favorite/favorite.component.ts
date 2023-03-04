@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { RecipeService } from './../../services/recipe.service';
 import { AuthService } from 'src/app/services/auth.service';
 import { Component, OnInit } from '@angular/core';
@@ -14,11 +15,14 @@ export class FavoriteComponent implements OnInit {
   favorites: Recipe[] | null = null;
   mealPlan: Recipe[] | null = null;
   numMeals: number = 0;
+  selected: Recipe | null = null;
+  userSearchTerm: string = '';
 
   constructor(
     private auth: AuthService,
-    private recipeService: RecipeService
-    ) {}
+    private recipeService: RecipeService,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
     this.getUser();
@@ -32,8 +36,8 @@ export class FavoriteComponent implements OnInit {
       },
       error: (err: any) => {
         console.error(err);
-      }
-    })
+      },
+    });
   }
 
   getUser() {
@@ -49,6 +53,47 @@ export class FavoriteComponent implements OnInit {
 
   initializeMealPlan() {
     this.mealPlan = [];
+  }
+
+  selectRecipe(recipe: Recipe) {
+    this.selected = recipe;
+  }
+
+  checkIfRecipeInFavorites(recipe: Recipe) {
+    if (this.user) {
+      for (let i = 0; i < this.user.recipes.length; i++) {
+        if (this.user.recipes[i].id === recipe.id) {
+          return true;
+        }
+      }
+    }
+    return false;
+  }
+
+  addToFavorites(userId: number, recipeId: number) {
+    this.recipeService.addToFavorites(userId, recipeId).subscribe({
+      next: () => {
+        this.router.navigateByUrl('/favorites');
+      },
+      error: (err: any) => {
+        console.error(err);
+      },
+    });
+  }
+
+  removeFromFavorites(userId: number, recipeId: number) {
+    this.recipeService.removeFromFavorites(userId, recipeId).subscribe({
+      next: () => {
+        this.router.navigateByUrl('/favorites');
+      },
+      error: (err: any) => {
+        console.error(err);
+      },
+    });
+  }
+
+  search(searchTerm: string) {
+
   }
 
   generateMealPlan(numMeals: number) {
@@ -86,7 +131,7 @@ export class FavoriteComponent implements OnInit {
 
       if (this.mealPlan) {
         for (let num of selected) {
-          this.mealPlan.push(this.favorites[num])
+          this.mealPlan.push(this.favorites[num]);
         }
       }
       console.log(selected);

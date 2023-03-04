@@ -1,4 +1,18 @@
+<div class="row">
+  <div class="col">
 
+  </div>
+
+  <div class="col search">
+    <input
+      class="text"
+      type="text"
+      name="search"
+      [(ngModel)]="userSearchTerm"
+    />
+    <button class="btn" (click)="search(userSearchTerm)">Search</button>
+  </div>
+</div>
 
 <div class="form-group mx-sm-3 mb-2">
   <label for="days">Enter the number of meals you'd like generated:</label>
@@ -23,6 +37,54 @@
   <h4>*Note: If you leave this page your meal plan and grocery list will be lost</h4>
 </div>
 
-<ul *ngIf="user && !mealPlan">
-  <li *ngFor="let recipe of favorites">{{ recipe.name }}</li>
-</ul>
+
+<div class="grid-container" *ngIf="!mealPlan && user && !selected">
+  <div class="grid-item" *ngFor="let recipe of favorites">
+    <div class="image-holder" (click)="selectRecipe(recipe)">
+      <img *ngIf="recipe.imageUrl" src="{{ recipe.imageUrl }}" alt="" />
+      <img
+        *ngIf="!recipe.imageUrl"
+        src="https://www.pfchangs.com/images/default-source/menu/main-entres/buddhasfeaststirfried-1200x80012282b6c-8d11-4409-9188-fb5b5a56855e.jpg?sfvrsn=cef36ae0_3"
+        alt=""
+      />
+      <br />
+      <h4>{{ recipe.name }}</h4>
+    </div>
+  </div>
+</div>
+
+<div class="container" *ngIf="selected">
+  <img *ngIf="selected.imageUrl" src="{{ selected.imageUrl }}" alt="" />
+  <img
+    *ngIf="!selected.imageUrl"
+    src="https://www.pfchangs.com/images/default-source/menu/main-entres/buddhasfeaststirfried-1200x80012282b6c-8d11-4409-9188-fb5b5a56855e.jpg?sfvrsn=cef36ae0_3"
+    alt=""
+  />
+  <h3>{{ selected.name }}</h3>
+  <ul>
+    <li *ngFor="let recipeIngredient of selected.ingredients">
+      {{ recipeIngredient.amount }} {{ recipeIngredient.ingredient.name }}
+    </li>
+  </ul>
+  <div *ngFor="let instruction of selected.instructions; let i = index">
+    <p>{{ i + 1 }}. {{ instruction.description }}</p>
+  </div>
+
+
+
+  <button
+    class="btn"
+    *ngIf="user && checkIfRecipeInFavorites(selected)"
+    (click)="removeFromFavorites(user.id, selected.id)"
+  >
+    Remove from favorites
+  </button>
+  <button
+    class="btn"
+    *ngIf="user && !checkIfRecipeInFavorites(selected)"
+    (click)="addToFavorites(user.id, selected.id)"
+  >
+    Add to favorites!
+  </button>
+  <button class="btn" (click)="selected = null">Back</button>
+</div>

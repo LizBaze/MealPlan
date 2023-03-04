@@ -1,7 +1,7 @@
 import { IngredientService } from './../../services/ingredient.service';
 import { RecipeService } from './../../services/recipe.service';
 import { AuthService } from 'src/app/services/auth.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { Recipe } from 'src/app/models/recipe';
 import { User } from 'src/app/models/user';
 import { Instruction } from 'src/app/models/instruction';
@@ -20,12 +20,14 @@ export class AccountComponent implements OnInit {
   user: User | null = null;
   editRecipe: Recipe | null = null;
   ingredients: Ingredient[] | null = null;
+  fileTooLarge: boolean = false;
 
   constructor(
     private auth: AuthService,
     private recipeServ: RecipeService,
     private ingServ: IngredientService,
     private s3: S3Service,
+    private changeDetect: ChangeDetectorRef
 
     ) {}
 
@@ -36,6 +38,17 @@ export class AccountComponent implements OnInit {
   }
 
   onFileSelect(e: any, recipe: Recipe) {
+    if (e.target.files[0].size > 250000) {
+      this.fileTooLarge = true;
+      console.log(this.fileTooLarge);
+      this.changeDetect.detectChanges();
+
+
+      return;
+    } else {
+      this.fileTooLarge = false;
+    }
+
     var newFile = null;
     if (this.user) {
       const fileName = this.user.username + recipe.name;
