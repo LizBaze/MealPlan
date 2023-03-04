@@ -16,5 +16,6 @@ public interface RecipeService {
 	public boolean clearMealPlan(String username);
 	public List<Recipe> findFavoritesByUsername(String username);
 	public List<Recipe> searchFavorites(String searchTerm, String username);
+	public List<Recipe> getMealPlan(String username);
 
 }

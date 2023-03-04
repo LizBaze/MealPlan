@@ -52,5 +52,11 @@ class UserTest {
 		assertTrue(user.getRecipes().size() > 0);
 		assertEquals("Macaroni and cheese", user.getRecipes().get(0).getName());
 	}
+	
+	@Test
+	void test_user_mealPlan() {
+		assertNotNull(user);
+		assertTrue(user.getMealPlan().size() > 0);
+	}
 
 }

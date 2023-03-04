@@ -169,4 +169,14 @@ public class RecipeServiceImpl implements RecipeService {
 		return results;
 	}
 
+	@Override
+	public List<Recipe> getMealPlan(String username) {
+		User user = userRepo.findByUsername(username);
+		List<Recipe> recipes = null;
+		if (user != null) {
+			recipes = user.getMealPlan();
+		}
+		return recipes;
+	}
+
 }
