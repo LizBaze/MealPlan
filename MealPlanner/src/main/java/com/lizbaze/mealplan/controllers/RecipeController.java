@@ -106,5 +106,18 @@ public class RecipeController {
 		}
 
 	}
+	
+	@GetMapping("users/favorites")
+	public List<Recipe> findFavorites(Principal principal, HttpServletResponse res) {
+		
+		List<Recipe> recipes = recipeServ.findFavoritesByUsername(principal.getName());
+		if (recipes != null ) {
+			res.setStatus(200);
+		} else {
+			res.setStatus(400);
+		}
+		
+		return recipes;
+	}
 
 }

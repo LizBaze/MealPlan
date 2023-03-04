@@ -21,8 +21,8 @@
           Browse Recipes
         </a>
       </li>
-      <li class="nav-item">
-        <a class="nav-link active" [routerLink]="['/favorites']">Favorites</a>
+      <li *ngIf="loggedIn()" class="nav-item">
+        <a class="nav-link active" [routerLink]="['/favorites']">Meal Plan</a>
       </li>
       <li class="nav-item">
         <a class="nav-link active" [routerLink]="['/account']">Account</a>

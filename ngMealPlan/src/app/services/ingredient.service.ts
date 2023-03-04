@@ -27,7 +27,7 @@ export class IngredientService {
 
   index(): Observable<Ingredient[]> {
 
-    return this.http.get<Ingredient[]>(this.url + "api/ingredients", this.getHttpOptions()).pipe(
+    return this.http.get<Ingredient[]>(this.url + "api/ingredients").pipe(
       catchError((err: any) => {
         console.error(err);
         return throwError(
