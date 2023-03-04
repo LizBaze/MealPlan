@@ -119,5 +119,19 @@ public class RecipeController {
 		
 		return recipes;
 	}
+	
+	@GetMapping("users/favorites/{searchTerm}")
+	public List<Recipe> searchFavorites(@PathVariable String searchTerm, Principal principal, HttpServletResponse res) {
+		
+		List<Recipe> recipes = recipeServ.searchFavorites(searchTerm, principal.getName());
+		
+		if (recipes != null ) {
+			res.setStatus(200);
+		} else {
+			res.setStatus(400);
+		}
+		
+		return recipes;
+	}
 
 }

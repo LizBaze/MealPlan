@@ -1,5 +1,6 @@
 package com.lizbaze.mealplan.services;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
@@ -152,6 +153,20 @@ public class RecipeServiceImpl implements RecipeService {
 			recipes = user.getRecipes();
 		}
 		return recipes;
+	}
+
+	@Override
+	public List<Recipe> searchFavorites(String searchTerm, String username) {
+		User user = userRepo.findByUsername(username);
+		List<Recipe> results = new ArrayList<>();
+		if (user != null ) {
+			for (Recipe recipe: user.getRecipes()) {
+				if (recipe.getName().contains(searchTerm) ) {
+					results.add(recipe);
+				}
+			}
+		}
+		return results;
 	}
 
 }
