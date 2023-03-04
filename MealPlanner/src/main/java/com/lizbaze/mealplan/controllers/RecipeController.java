@@ -88,7 +88,7 @@ public class RecipeController {
 	}
 
 	@PutMapping("users/mealPlan")
-	public void createMealPlan(@RequestBody List<Recipe> recipes, Principal principal, HttpServletResponse res) {
+	public List<Recipe> createMealPlan(@RequestBody List<Recipe> recipes, Principal principal, HttpServletResponse res) {
 		boolean success = true;
 		if (! recipeServ.clearMealPlan(principal.getName()) ) {
 			success = false;
@@ -100,10 +100,13 @@ public class RecipeController {
 		}
 
 		if (success) {
-			res.setStatus(204);
+			res.setStatus(200);
+			return recipes;
 		} else {
 			res.setStatus(400);
+			return null;
 		}
+		
 
 	}
 	

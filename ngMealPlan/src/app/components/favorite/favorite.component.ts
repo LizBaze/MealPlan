@@ -17,6 +17,8 @@ export class FavoriteComponent implements OnInit {
   numMeals: number = 0;
   selected: Recipe | null = null;
   userSearchTerm: string = '';
+  makeMealPlan: boolean = false;
+  notEnoughFavorites: boolean = false;
 
   constructor(
     private auth: AuthService,
@@ -109,7 +111,12 @@ export class FavoriteComponent implements OnInit {
     let selected: number[] = [];
     if (this.user && this.favorites) {
       if (numMeals > this.favorites.length + 1) {
-        return null;
+        this.notEnoughFavorites = true;
+        this.mealPlan = null;
+        return;
+
+      } else {
+        this.notEnoughFavorites = false;
       }
 
       for (let i = 0; i < numMeals; i++) {
@@ -141,10 +148,24 @@ export class FavoriteComponent implements OnInit {
           this.mealPlan.push(this.favorites[num]);
         }
       }
+      this.uploadMealPlan(this.mealPlan);
       console.log(selected);
       console.log(this.mealPlan);
     }
-    return null;
+
+  }
+
+  uploadMealPlan(recipes: Recipe[]) {
+    if (this.user) {
+      this.recipeService.createMealPlan(recipes, this.user.username).subscribe({
+        next: (recipes: Recipe[]) => {
+          this.mealPlan = recipes;
+        },
+        error: (err: any) => {
+          console.error(err);
+        }
+      })
+    }
   }
 
   getRandomInt(max: number) {

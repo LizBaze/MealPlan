@@ -173,4 +173,23 @@ export class RecipeService {
         })
       );
   }
+
+  createMealPlan(recipes: Recipe[], username: string) {
+    return this.http.put<Recipe[]>(
+        this.url + "api/users/mealPlan", recipes, this.getHttpOptions()
+    )
+    .pipe(
+      catchError((err: any) => {
+        console.error(err);
+        return throwError(
+          () =>
+            new Error('RecipeService.createMealPlan(): error creating Meal Plan')
+        );
+      })
+    );
+  }
+
+
+
+
 }
