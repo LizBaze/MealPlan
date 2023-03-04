@@ -84,7 +84,7 @@ export class FavoriteComponent implements OnInit {
   removeFromFavorites(userId: number, recipeId: number) {
     this.recipeService.removeFromFavorites(userId, recipeId).subscribe({
       next: () => {
-        this.router.navigateByUrl('/favorites');
+        this.getFavorites();
       },
       error: (err: any) => {
         console.error(err);
@@ -93,7 +93,14 @@ export class FavoriteComponent implements OnInit {
   }
 
   search(searchTerm: string) {
-
+    this.recipeService.searchFavorites(searchTerm).subscribe({
+      next: (recipes: Recipe[]) => {
+        this.favorites = recipes;
+      },
+      error: (err: any) => {
+        console.error(err);
+      },
+    })
   }
 
   generateMealPlan(numMeals: number) {

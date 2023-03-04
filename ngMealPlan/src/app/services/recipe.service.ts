@@ -38,14 +38,38 @@ export class RecipeService {
   }
 
   findFavorites(): Observable<Recipe[]> {
-    return this.http.get<Recipe[]>(this.url + "api/users/favorites", this.getHttpOptions()).pipe(
-      catchError((err: any) => {
-        console.error(err);
-        return throwError(
-          () => new Error('RecipeService.ifindFavorites(): error retrieving favorites')
-        );
-      })
-    )
+    return this.http
+      .get<Recipe[]>(this.url + 'api/users/favorites', this.getHttpOptions())
+      .pipe(
+        catchError((err: any) => {
+          console.error(err);
+          return throwError(
+            () =>
+              new Error(
+                'RecipeService.findFavorites(): error retrieving favorites'
+              )
+          );
+        })
+      );
+  }
+
+  searchFavorites(searchTerm: string): Observable<Recipe[]> {
+    return this.http
+      .get<Recipe[]>(
+        this.url + 'api/users/favorites/' + searchTerm,
+        this.getHttpOptions()
+      )
+      .pipe(
+        catchError((err: any) => {
+          console.error(err);
+          return throwError(
+            () =>
+              new Error(
+                'RecipeService.searchFavorites(): error retrieving favorites'
+              )
+          );
+        })
+      );
   }
 
   create(recipe: Recipe) {
@@ -134,17 +158,19 @@ export class RecipeService {
   }
 
   findByUser(id: number) {
-    return this.http.get<Recipe[]>(
-      this.url + 'api/users/' + id + "/recipes", this.getHttpOptions()).pipe(
+    return this.http
+      .get<Recipe[]>(
+        this.url + 'api/users/' + id + '/recipes',
+        this.getHttpOptions()
+      )
+      .pipe(
         catchError((err: any) => {
           console.error(err);
           return throwError(
-            () => new Error('RecipeService.findByUser(): error retrieving recipes')
+            () =>
+              new Error('RecipeService.findByUser(): error retrieving recipes')
           );
         })
       );
   }
-
-
-
 }
