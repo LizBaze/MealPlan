@@ -65,11 +65,12 @@ body {
 .grid-container {
 	display: grid;
 	gap: 20px;
-	grid-template-columns: repeat(auto-fit, 85%);
+	grid-template-columns: repeat(auto-fit, 40%);
 	grid-template-rows: auto;
 	place-items: center;
   justify-content: center;
 	padding-top: 20px;
+  align-items: start;
 }
 
 .grid-item {
