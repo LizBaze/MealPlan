@@ -12,7 +12,12 @@
     </div>
   </div>
 
-  <div *ngIf="!makeMealPlan" class="col search">
+  <div class="col button-container">
+    <button class="btn" *ngIf="!mealPlan" (click)="getMealPlan()" >View Meal Plan</button>
+    <button class="btn" *ngIf="!favorites" (click)="getFavorites()">View Favorites</button>
+  </div>
+  <div *ngIf="!makeMealPlan && !favorites" class="col"></div>
+  <div *ngIf="!makeMealPlan && favorites" class="col search">
     <input
       class="text"
       type="text"
@@ -23,9 +28,12 @@
   </div>
 </div>
 
+<div class="container">
+
+</div>
 
 
-<div *ngIf="mealPlan">
+<div class="container" *ngIf="mealPlan">
   <h3>Your Meals</h3>
   <ul>
     <li *ngFor="let recipe of mealPlan">{{ recipe.name }}</li>
@@ -39,11 +47,10 @@
       </li>
     </div>
   </ul>
-  <h4>*Note: If you leave this page your meal plan and grocery list will be lost</h4>
 </div>
 
 
-<div class="grid-container" *ngIf="!mealPlan && user && !selected">
+<div class="container grid-container" *ngIf="favorites && !mealPlan && user && !selected">
   <div class="grid-item" *ngFor="let recipe of favorites">
     <div class="image-holder" (click)="selectRecipe(recipe)">
       <img *ngIf="recipe.imageUrl" src="{{ recipe.imageUrl }}" alt="" />

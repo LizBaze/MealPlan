@@ -18,3 +18,10 @@ img {
 .grid-container {
   grid-template-columns: repeat(auto-fit, 45%) !important;
 }
+
+
+
+.button-container {
+  justify-content: center;
+  text-align: center;
+}

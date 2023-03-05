@@ -28,12 +28,14 @@ export class FavoriteComponent implements OnInit {
 
   ngOnInit(): void {
     this.getUser();
-    this.getFavorites();
+
+
   }
 
   getFavorites() {
     this.recipeService.findFavorites().subscribe({
       next: (recipes: Recipe[]) => {
+        this.mealPlan = null;
         this.favorites = recipes;
       },
       error: (err: any) => {
@@ -46,6 +48,7 @@ export class FavoriteComponent implements OnInit {
     this.auth.getLoggedInUser().subscribe({
       next: (loggedInUser) => {
         this.user = loggedInUser;
+        this.getMealPlan();
       },
       error: () => {
         console.error('not logged In');
@@ -149,8 +152,7 @@ export class FavoriteComponent implements OnInit {
         }
       }
       this.uploadMealPlan(this.mealPlan);
-      console.log(selected);
-      console.log(this.mealPlan);
+
     }
 
   }
@@ -166,6 +168,18 @@ export class FavoriteComponent implements OnInit {
         }
       })
     }
+  }
+
+  getMealPlan() {
+    this.recipeService.getMealPlan().subscribe({
+      next: (recipes: Recipe[]) => {
+        this.favorites = null;
+        this.mealPlan = recipes;
+      },
+      error: (err: any) => {
+        console.error(err);
+      }
+    })
   }
 
   getRandomInt(max: number) {
