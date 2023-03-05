@@ -48,7 +48,7 @@ export class FavoriteComponent implements OnInit {
     this.auth.getLoggedInUser().subscribe({
       next: (loggedInUser) => {
         this.user = loggedInUser;
-        this.getMealPlan();
+        // this.getMealPlan();
       },
       error: () => {
         console.error('not logged In');
@@ -78,7 +78,8 @@ export class FavoriteComponent implements OnInit {
   addToFavorites(userId: number, recipeId: number) {
     this.recipeService.addToFavorites(userId, recipeId).subscribe({
       next: () => {
-        this.router.navigateByUrl('/favorites');
+        this.getFavorites();
+        this.getUser();
       },
       error: (err: any) => {
         console.error(err);
@@ -90,6 +91,7 @@ export class FavoriteComponent implements OnInit {
     this.recipeService.removeFromFavorites(userId, recipeId).subscribe({
       next: () => {
         this.getFavorites();
+        this.getUser();
       },
       error: (err: any) => {
         console.error(err);

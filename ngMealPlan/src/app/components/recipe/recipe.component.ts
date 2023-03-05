@@ -137,10 +137,11 @@ export class RecipeComponent implements OnInit {
     });
   }
 
-  addToFavorites(userId: number, recipeId: number) {
+  addToFavorites(userId: number, recipeId: number, recipe: Recipe) {
     this.recipeService.addToFavorites(userId, recipeId).subscribe({
       next: () => {
-        this.router.navigateByUrl('/favorites');
+
+        this.getUser();
       },
       error: (err: any) => {
         console.error(err);
@@ -148,10 +149,11 @@ export class RecipeComponent implements OnInit {
     });
   }
 
-  removeFromFavorites(userId: number, recipeId: number) {
+  removeFromFavorites(userId: number, recipeId: number, recipe: Recipe) {
     this.recipeService.removeFromFavorites(userId, recipeId).subscribe({
       next: () => {
-        this.router.navigateByUrl('/favorites');
+
+        this.getUser();
       },
       error: (err: any) => {
         console.error(err);

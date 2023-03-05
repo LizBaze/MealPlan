@@ -155,14 +155,14 @@
   <button
     class="btn"
     *ngIf="user && checkIfRecipeInFavorites(selected)"
-    (click)="removeFromFavorites(user.id, selected.id)"
+    (click)="removeFromFavorites(user.id, selected.id, selected)"
   >
     Remove from favorites
   </button>
   <button
     class="btn"
     *ngIf="user && !checkIfRecipeInFavorites(selected)"
-    (click)="addToFavorites(user.id, selected.id)"
+    (click)="addToFavorites(user.id, selected.id, selected)"
   >
     Add to favorites!
   </button>
