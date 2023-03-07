@@ -14,7 +14,7 @@ import com.lizbaze.mealplan.entities.Ingredient;
 import com.lizbaze.mealplan.services.IngredientService;
 
 @RestController
-@CrossOrigin(origins = "*")
+@CrossOrigin({"*", "http://localhost"})
 @RequestMapping("api")
 public class IngredientController {
 	

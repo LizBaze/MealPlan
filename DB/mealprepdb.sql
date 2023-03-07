@@ -23,9 +23,10 @@ DROP TABLE IF EXISTS `user` ;
 CREATE TABLE IF NOT EXISTS `user` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `username` VARCHAR(45) NULL,
-  `password` VARCHAR(45) NULL,
+  `password` VARCHAR(500) NULL,
   `email` VARCHAR(45) NULL,
   `enabled` TINYINT NULL,
+  `role` VARCHAR(45) NULL,
   PRIMARY KEY (`id`),
   UNIQUE INDEX `username_UNIQUE` (`username` ASC))
 ENGINE = InnoDB;
@@ -40,7 +41,16 @@ CREATE TABLE IF NOT EXISTS `recipe` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(45) NULL,
   `description` TEXT NULL,
-  PRIMARY KEY (`id`))
+  `hidden` TINYINT NULL,
+  `image_url` TEXT NULL,
+  `user_id` INT NOT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `fk_recipe_user1_idx` (`user_id` ASC),
+  CONSTRAINT `fk_recipe_user1`
+    FOREIGN KEY (`user_id`)
+    REFERENCES `user` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
@@ -107,7 +117,7 @@ DROP TABLE IF EXISTS `recipe_has_ingredient` ;
 CREATE TABLE IF NOT EXISTS `recipe_has_ingredient` (
   `recipe_id` INT NOT NULL,
   `ingredient_id` INT NOT NULL,
-  `amoount` VARCHAR(45) NULL,
+  `amount` VARCHAR(45) NULL,
   PRIMARY KEY (`recipe_id`, `ingredient_id`),
   INDEX `fk_recipe_has_ingredient_ingredient1_idx` (`ingredient_id` ASC),
   INDEX `fk_recipe_has_ingredient_recipe1_idx` (`recipe_id` ASC),
@@ -119,6 +129,30 @@ CREATE TABLE IF NOT EXISTS `recipe_has_ingredient` (
   CONSTRAINT `fk_recipe_has_ingredient_ingredient1`
     FOREIGN KEY (`ingredient_id`)
     REFERENCES `ingredient` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `mealplan`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `mealplan` ;
+
+CREATE TABLE IF NOT EXISTS `mealplan` (
+  `user_id` INT NOT NULL,
+  `recipe_id` INT NOT NULL,
+  PRIMARY KEY (`user_id`, `recipe_id`),
+  INDEX `fk_user_has_recipe1_recipe1_idx` (`recipe_id` ASC),
+  INDEX `fk_user_has_recipe1_user1_idx` (`user_id` ASC),
+  CONSTRAINT `fk_user_has_recipe1_user1`
+    FOREIGN KEY (`user_id`)
+    REFERENCES `user` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_user_has_recipe1_recipe1`
+    FOREIGN KEY (`recipe_id`)
+    REFERENCES `recipe` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
@@ -139,7 +173,7 @@ SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
 -- -----------------------------------------------------
 START TRANSACTION;
 USE `mealprepdb`;
-INSERT INTO `user` (`id`, `username`, `password`, `email`, `enabled`) VALUES (1, 'admin', 'admin', 'admin@admin.com', 1);
+INSERT INTO `user` (`id`, `username`, `password`, `email`, `enabled`, `role`) VALUES (1, 'admin', 'admin', 'admin@admin.com', 1, NULL);
 
 COMMIT;
 
@@ -149,7 +183,7 @@ COMMIT;
 -- -----------------------------------------------------
 START TRANSACTION;
 USE `mealprepdb`;
-INSERT INTO `recipe` (`id`, `name`, `description`) VALUES (1, 'Macaroni and cheese', 'You know what that is');
+INSERT INTO `recipe` (`id`, `name`, `description`, `hidden`, `image_url`, `user_id`) VALUES (1, 'Macaroni and cheese', 'You know what that is', 1, 'https://ameessavorydish.com/wp-content/uploads/2011/03/Baked-mac-and-cheese-feature.jpg', 1);
 
 COMMIT;
 
@@ -170,7 +204,18 @@ COMMIT;
 -- -----------------------------------------------------
 START TRANSACTION;
 USE `mealprepdb`;
-INSERT INTO `instruction` (`id`, `description`, `recipe_id`) VALUES (1, '1. Boil Macaroni. 2. Add cheese.', 1);
+INSERT INTO `instruction` (`id`, `description`, `recipe_id`) VALUES (1, 'Boil Macaroni', 1);
+INSERT INTO `instruction` (`id`, `description`, `recipe_id`) VALUES (2, 'Add cheese.', 1);
+
+COMMIT;
+
+
+-- -----------------------------------------------------
+-- Data for table `user_has_recipe`
+-- -----------------------------------------------------
+START TRANSACTION;
+USE `mealprepdb`;
+INSERT INTO `user_has_recipe` (`user_id`, `recipe_id`) VALUES (1, 1);
 
 COMMIT;
 
@@ -180,8 +225,18 @@ COMMIT;
 -- -----------------------------------------------------
 START TRANSACTION;
 USE `mealprepdb`;
-INSERT INTO `recipe_has_ingredient` (`recipe_id`, `ingredient_id`, `amoount`) VALUES (1, 1, 'A whole box');
-INSERT INTO `recipe_has_ingredient` (`recipe_id`, `ingredient_id`, `amoount`) VALUES (1, 2, 'A block of it');
+INSERT INTO `recipe_has_ingredient` (`recipe_id`, `ingredient_id`, `amount`) VALUES (1, 1, 'Some');
+INSERT INTO `recipe_has_ingredient` (`recipe_id`, `ingredient_id`, `amount`) VALUES (1, 2, 'A lot');
+
+COMMIT;
+
+
+-- -----------------------------------------------------
+-- Data for table `mealplan`
+-- -----------------------------------------------------
+START TRANSACTION;
+USE `mealprepdb`;
+INSERT INTO `mealplan` (`user_id`, `recipe_id`) VALUES (1, 1);
 
 COMMIT;
 
