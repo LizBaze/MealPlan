@@ -9,13 +9,23 @@ import { AuthService } from 'src/app/services/auth.service';
   styleUrls: ['./register.component.css'],
 })
 export class RegisterComponent {
-  user: User = new User();
-  logInUser: User = new User();
+  user: User | null = null;
+  logInUser: User | null = new User();
   confirmPassword: string = '';
   passwordMatch: boolean = true;
   loginFailure = false;
 
   constructor(private auth: AuthService, private router: Router) {}
+
+  initializeSignUp() {
+    this.user = new User();
+    this.logInUser = null;
+  }
+
+  initializeSignIn() {
+    this.user = null;
+    this.logInUser = new User();
+  }
 
   register(user: User) {
     if (user.password !== this.confirmPassword) {

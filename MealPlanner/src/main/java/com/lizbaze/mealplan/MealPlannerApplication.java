@@ -9,12 +9,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @SpringBootApplication
-public class MealPlannerApplication extends SpringBootServletInitializer {
+public class MealPlannerApplication  {
 
-    @Override
-    protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
-        return application.sources(MealPlannerApplication.class);
-    }
+  
 	public static void main(String[] args) {
 		SpringApplication.run(MealPlannerApplication.class, args);
 	}

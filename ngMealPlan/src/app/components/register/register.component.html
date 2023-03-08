@@ -1,4 +1,4 @@
-<div class="container center top">
+<div *ngIf="user" class="container center top">
   <h3>Sign up</h3>
 
   <input
@@ -28,11 +28,14 @@
   <br/>
   <button (click)="register(user)" class="btn">Submit</button>
   <br />
+  <label for="signUp">Have an account? </label>
+  <p> </p>
+  <a class="signUp" name="signUp" (click)="initializeSignIn()">Sign in</a>
 </div>
 
 <br />
 
-<div class="container center">
+<div *ngIf="!user && logInUser" class="container center">
   <h3>Sign In</h3>
   <input
     class="text"
@@ -54,4 +57,8 @@
   <button (click)="logIn(logInUser.username, logInUser.password)" class="btn">
     Submit
   </button>
+  <br>
+  <label for="signUp">Don't have an account? </label>
+  <p> </p>
+  <a class="signUp" name="signUp" (click)="initializeSignUp()">Sign up</a>
 </div>

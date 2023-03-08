@@ -21,7 +21,7 @@ import com.lizbaze.mealplan.services.AuthService;
 import com.lizbaze.mealplan.services.RecipeService;
 
 @RestController
-@CrossOrigin({"*", "http://localhost"}) //origins = "*"
+@CrossOrigin(origins = "*") //origins = "*"
 @RequestMapping("api")
 public class RecipeController {
 
