@@ -13,6 +13,10 @@ a {
   color: white;
 }
 
+li {
+  cursor: pointer;
+}
+
 .nav-link {
   color: white !important;
   margin: 3px;
