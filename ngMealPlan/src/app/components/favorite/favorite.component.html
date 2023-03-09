@@ -1,37 +1,54 @@
 <div class="row">
   <div class="col">
-    <button *ngIf="!makeMealPlan" class="btn" (click)="makeMealPlan = true">Generate Meal Plan</button>
+    <button *ngIf="!makeMealPlan" class="btn" (click)="makeMealPlan = true">
+      Generate Meal Plan
+    </button>
     <div *ngIf="makeMealPlan" class="form-group mx-sm-3 mb-2">
       <label for="days">Number of meals:</label>
-      <input class="text" type="number" name="days" [(ngModel)]="numMeals" />
+      <input
+        id="numMeals"
+        class="text"
+        type="number"
+        min="1"
+        name="days"
+        [(ngModel)]="numMeals"
+      />
+      <br>
       <button class="btn" (click)="generateMealPlan(numMeals)">Submit</button>
       <button class="btn" (click)="makeMealPlan = false">Cancel</button>
-      <br>
-      <label *ngIf="notEnoughFavorites" class="warning" for="days">Add some more recipes to your favorites!</label>
-
+      <br />
+      <label *ngIf="notEnoughFavorites" class="warning" for="days"
+        >Add some more recipes to your favorites!</label
+      >
     </div>
   </div>
 
   <div class="col button-container">
-    <button class="btn" *ngIf="!mealPlan" (click)="getMealPlan()" >View Meal Plan</button>
-    <button class="btn" *ngIf="!favorites" (click)="getFavorites()">View Favorites</button>
+    <button class="btn" *ngIf="!mealPlan" (click)="getMealPlan()">
+      View Meal Plan
+    </button>
+    <button class="btn" *ngIf="!favorites" (click)="getFavorites()">
+      View Favorites
+    </button>
   </div>
-  <div *ngIf="!makeMealPlan && !favorites" class="col"></div>
-  <div *ngIf="!makeMealPlan && favorites" class="col search">
+  <br>
+  <div *ngIf="!makeMealPlan && favorites" class="container search">
     <input
       class="text"
       type="text"
       name="search"
       [(ngModel)]="userSearchTerm"
     />
-    <button  class="btn" (click)="search(userSearchTerm)">Search</button>
+    <button class="btn" (click)="search(userSearchTerm)">Search</button>
   </div>
+  <!-- The following divs are for formatting purposes only. They serve to keep the
+        view favorites and view meal plan buttons centered on the screen -->
+  <!-- <div *ngIf="!makeMealPlan && !favorites" class="col"></div>
+  <div *ngIf="makeMealPlan && !favorites" class="col"></div>
+  <div *ngIf="makeMealPlan && favorites" class="col"></div> -->
 </div>
 
-<div class="container">
-
-</div>
-
+<div class="container"></div>
 
 <div class="container" *ngIf="mealPlan">
   <h3>Your Meals</h3>
@@ -49,8 +66,10 @@
   </ul>
 </div>
 
-
-<div class="container grid-container" *ngIf="favorites && !mealPlan && user && !selected">
+<div
+  class="container grid-container"
+  *ngIf="favorites && !mealPlan && user && !selected"
+>
   <div class="grid-item" *ngFor="let recipe of favorites">
     <div class="image-holder" (click)="selectRecipe(recipe)">
       <img *ngIf="recipe.imageUrl" src="{{ recipe.imageUrl }}" alt="" />
@@ -81,8 +100,6 @@
   <div *ngFor="let instruction of selected.instructions; let i = index">
     <p>{{ i + 1 }}. {{ instruction.description }}</p>
   </div>
-
-
 
   <button
     class="btn"

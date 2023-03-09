@@ -34,7 +34,7 @@ public class User {
 
 	@ManyToMany
 	@JoinTable(name = "user_has_recipe", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "recipe_id"))
-	@JsonIgnoreProperties({"user", "ingredients", "instructions"})
+	@JsonIgnoreProperties({"user"})
 	private List<Recipe> recipes;
 
 	@OneToMany(mappedBy = "user")

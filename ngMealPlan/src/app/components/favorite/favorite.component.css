@@ -19,9 +19,11 @@ img {
   grid-template-columns: repeat(auto-fit, 45%) !important;
 }
 
-
+#numMeals {
+  width: 35%;
+}
 
 .button-container {
-  justify-content: center;
-  text-align: center;
+  justify-content: right;
+  text-align: right;
 }

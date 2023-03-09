@@ -28,8 +28,6 @@ export class FavoriteComponent implements OnInit {
 
   ngOnInit(): void {
     this.getUser();
-
-
   }
 
   getFavorites() {
@@ -48,6 +46,7 @@ export class FavoriteComponent implements OnInit {
     this.auth.getLoggedInUser().subscribe({
       next: (loggedInUser) => {
         this.user = loggedInUser;
+        this.getFavorites();
         // this.getMealPlan();
       },
       error: () => {
@@ -107,56 +106,32 @@ export class FavoriteComponent implements OnInit {
       error: (err: any) => {
         console.error(err);
       },
-    })
+    });
   }
 
   generateMealPlan(numMeals: number) {
-    // keep track of recipes we've randomly chosen
-    this.mealPlan = [];
-    let selected: number[] = [];
-    if (this.user && this.favorites) {
-      if (numMeals > this.favorites.length + 1) {
-        this.notEnoughFavorites = true;
-        this.mealPlan = null;
-        return;
 
-      } else {
-        this.notEnoughFavorites = false;
-      }
+    if (this.user && numMeals > this.user.recipes.length) {
+      this.notEnoughFavorites = true;
+      // this.mealPlan = null;
+    } else if (this.user) {
+      this.makeMealPlan = false;
+      this.favorites = null;
+      this.notEnoughFavorites = false;
+      this.mealPlan = [];
+      // create copy of user's favorites
+      let faves = this.user.recipes.slice(0);
 
       for (let i = 0; i < numMeals; i++) {
-        // get a random number based on the length of the user's favorites list
-        let x = this.getRandomInt(this.favorites.length);
-
-        // insert the first random selection by default
-        if (selected.length === 0) {
-          selected[i] = x;
-        }
-
-        // check for duplicates before adding a random selection to our array
-        let duplicate = false;
-        for (let num of selected) {
-          if (num === x) {
-            duplicate = true;
-            i--;
-            break;
-          }
-        }
-        // Add unique selections to the array
-        if (!duplicate) {
-          selected[i] = x;
-        }
-      }
-
-      if (this.mealPlan) {
-        for (let num of selected) {
-          this.mealPlan.push(this.favorites[num]);
-        }
+        //select a random index of the array and get that recipe
+        let index = Math.floor(Math.random() * faves.length);
+        var recipe = faves[index];
+        //remove the recipe from the copy and insert it into mealPlan
+        faves.splice(index, 1);
+        this.mealPlan.push(recipe);
       }
       this.uploadMealPlan(this.mealPlan);
-
     }
-
   }
 
   uploadMealPlan(recipes: Recipe[]) {
@@ -167,8 +142,8 @@ export class FavoriteComponent implements OnInit {
         },
         error: (err: any) => {
           console.error(err);
-        }
-      })
+        },
+      });
     }
   }
 
@@ -180,11 +155,9 @@ export class FavoriteComponent implements OnInit {
       },
       error: (err: any) => {
         console.error(err);
-      }
-    })
+      },
+    });
   }
 
-  getRandomInt(max: number) {
-    return Math.floor(Math.random() * max);
-  }
+
 }
