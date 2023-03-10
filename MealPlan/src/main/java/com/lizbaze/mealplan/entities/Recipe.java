@@ -39,7 +39,7 @@ public class Recipe {
 
 	@ManyToOne
 	@JoinColumn(name = "user_id")
-	@JsonIgnoreProperties({"mealPlan"})
+	@JsonIgnoreProperties({"mealPlan, recipes"})
 	private User user;
 
 	public Recipe() {

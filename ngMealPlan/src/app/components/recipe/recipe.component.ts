@@ -162,6 +162,8 @@ export class RecipeComponent implements OnInit {
   }
 
   edit(recipe: Recipe) {
+    // clear User to prevent JSON parse error in the server
+    recipe.user = new User();
     this.recipeService.edit(recipe).subscribe({
       next: (updatedRecipe: Recipe) => {
         this.editRecipe = null;

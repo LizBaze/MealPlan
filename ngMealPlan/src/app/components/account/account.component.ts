@@ -101,6 +101,7 @@ export class AccountComponent implements OnInit {
   }
 
   edit(recipe: Recipe) {
+    recipe.user = new User();
     this.recipeServ.edit(recipe).subscribe({
       next: (updatedRecipe: Recipe) => {
         this.editRecipe = null;
