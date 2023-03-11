@@ -118,6 +118,7 @@ CREATE TABLE IF NOT EXISTS `recipe_has_ingredient` (
   `recipe_id` INT NOT NULL,
   `ingredient_id` INT NOT NULL,
   `amount` VARCHAR(45) NULL,
+  `measurement` VARCHAR(45) NULL,
   PRIMARY KEY (`recipe_id`, `ingredient_id`),
   INDEX `fk_recipe_has_ingredient_ingredient1_idx` (`ingredient_id` ASC),
   INDEX `fk_recipe_has_ingredient_recipe1_idx` (`recipe_id` ASC),
@@ -155,6 +156,18 @@ CREATE TABLE IF NOT EXISTS `mealplan` (
     REFERENCES `recipe` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `measurement`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `measurement` ;
+
+CREATE TABLE IF NOT EXISTS `measurement` (
+  `id` INT NOT NULL,
+  `description` VARCHAR(45) NULL,
+  PRIMARY KEY (`id`))
 ENGINE = InnoDB;
 
 SET SQL_MODE = '';
@@ -225,8 +238,8 @@ COMMIT;
 -- -----------------------------------------------------
 START TRANSACTION;
 USE `mealprepdb`;
-INSERT INTO `recipe_has_ingredient` (`recipe_id`, `ingredient_id`, `amount`) VALUES (1, 1, 'Some');
-INSERT INTO `recipe_has_ingredient` (`recipe_id`, `ingredient_id`, `amount`) VALUES (1, 2, 'A lot');
+INSERT INTO `recipe_has_ingredient` (`recipe_id`, `ingredient_id`, `amount`, `measurement`) VALUES (1, 1, '10', 'lb');
+INSERT INTO `recipe_has_ingredient` (`recipe_id`, `ingredient_id`, `amount`, `measurement`) VALUES (1, 2, '5', 'mg');
 
 COMMIT;
 
@@ -237,6 +250,28 @@ COMMIT;
 START TRANSACTION;
 USE `mealprepdb`;
 INSERT INTO `mealplan` (`user_id`, `recipe_id`) VALUES (1, 1);
+
+COMMIT;
+
+
+-- -----------------------------------------------------
+-- Data for table `measurement`
+-- -----------------------------------------------------
+START TRANSACTION;
+USE `mealprepdb`;
+INSERT INTO `measurement` (`id`, `description`) VALUES (1, 'mg');
+INSERT INTO `measurement` (`id`, `description`) VALUES (2, 'g');
+INSERT INTO `measurement` (`id`, `description`) VALUES (3, 'kg');
+INSERT INTO `measurement` (`id`, `description`) VALUES (4, 'oz');
+INSERT INTO `measurement` (`id`, `description`) VALUES (5, 'lb');
+INSERT INTO `measurement` (`id`, `description`) VALUES (6, 'cups');
+INSERT INTO `measurement` (`id`, `description`) VALUES (7, 'pint');
+INSERT INTO `measurement` (`id`, `description`) VALUES (8, 'quart');
+INSERT INTO `measurement` (`id`, `description`) VALUES (9, 'gallon');
+INSERT INTO `measurement` (`id`, `description`) VALUES (10, 'fl oz');
+INSERT INTO `measurement` (`id`, `description`) VALUES (11, 'tsp');
+INSERT INTO `measurement` (`id`, `description`) VALUES (12, 'tbsp');
+INSERT INTO `measurement` (`id`, `description`) VALUES (13, 'pinch');
 
 COMMIT;
 

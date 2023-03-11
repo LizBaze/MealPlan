@@ -12,6 +12,7 @@
 		<class>com.lizbaze.mealplan.entities.Ingredient</class>
 		<class>com.lizbaze.mealplan.entities.Instruction</class>
 		<class>com.lizbaze.mealplan.entities.RecipeHasIngredient</class>
+		<class>com.lizbaze.mealplan.entities.Measurement</class>
 
 		<!-- end entities -->
 

@@ -6,14 +6,12 @@ import { environment } from 'src/environments/environment';
 import { Ingredient } from '../models/ingredient';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class IngredientService {
-
   private url = environment.baseUrl;
 
-  constructor(private http: HttpClient, private auth: AuthService) { }
-
+  constructor(private http: HttpClient, private auth: AuthService) {}
 
   getHttpOptions() {
     let httpOptions = {
@@ -26,15 +24,30 @@ export class IngredientService {
   }
 
   index(): Observable<Ingredient[]> {
-
-    return this.http.get<Ingredient[]>(this.url + "api/ingredients").pipe(
+    return this.http.get<Ingredient[]>(this.url + 'api/ingredients').pipe(
       catchError((err: any) => {
         console.error(err);
         return throwError(
-          () => new Error("IngredientService.index(): error retrieving ingredients list")
-        )
+          () =>
+            new Error(
+              'IngredientService.index(): error retrieving ingredients list'
+            )
+        );
       })
-    )
+    );
   }
 
+  getIngredientsAndMeasurements(): Observable<[][]> {
+    return this.http.get<[][]>(this.url + 'api/measurements').pipe(
+      catchError((err: any) => {
+        console.error(err);
+        return throwError(
+          () =>
+            new Error(
+              'IngredientService.getIngredientsAndMeasurements(): error retrieving ingredients and measurements list'
+            )
+        );
+      })
+    );
+  }
 }

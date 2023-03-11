@@ -1,3 +1,4 @@
+import { Measurement } from './../../models/measurement';
 import { S3Service } from './../../services/s3.service';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
@@ -5,11 +6,21 @@ import { IngredientService } from './../../services/ingredient.service';
 import { Ingredient } from './../../models/ingredient';
 import { Instruction } from './../../models/instruction';
 import { RecipeService } from './../../services/recipe.service';
-import { ApplicationRef, ChangeDetectorRef, Component, ElementRef, NgZone, OnInit, ViewChild } from '@angular/core';
+import {
+  ApplicationRef,
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  Inject,
+  NgZone,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { Recipe } from 'src/app/models/recipe';
 import { RecipeHasIngredient } from 'src/app/models/recipe-has-ingredient';
 import { User } from 'src/app/models/user';
 import { timeout } from 'rxjs';
+import { DOCUMENT } from '@angular/common';
 
 @Component({
   selector: 'app-recipe',
@@ -25,7 +36,7 @@ export class RecipeComponent implements OnInit {
   user: User | null = null;
   userSearchTerm: string = '';
   fileTooLarge = false;
-
+  measurements: Measurement[] | null = null;
 
 
   constructor(
@@ -34,7 +45,8 @@ export class RecipeComponent implements OnInit {
     private auth: AuthService,
     private router: Router,
     private s3: S3Service,
-    private changeDetect: ChangeDetectorRef
+    private changeDetect: ChangeDetectorRef,
+    @Inject(DOCUMENT) document: Document
   ) {}
 
   ngOnInit() {
@@ -49,7 +61,6 @@ export class RecipeComponent implements OnInit {
       this.fileTooLarge = true;
       console.log(this.fileTooLarge);
       this.changeDetect.detectChanges();
-
 
       return;
     } else {
@@ -83,14 +94,16 @@ export class RecipeComponent implements OnInit {
   }
 
   getUser() {
-    this.auth.getLoggedInUser().subscribe({
-      next: (user: User) => {
-        this.user = user;
-      },
-      error: (err: any) => {
-        console.error(err);
-      },
-    });
+    if (this.loggedIn()) {
+      this.auth.getLoggedInUser().subscribe({
+        next: (user: User) => {
+          this.user = user;
+        },
+        error: (err: any) => {
+          console.error(err);
+        },
+      });
+    }
   }
 
   index() {
@@ -102,9 +115,14 @@ export class RecipeComponent implements OnInit {
         console.error(err);
       },
     });
-    this.ingServ.index().subscribe({
-      next: (ingredients: Ingredient[]) => {
-        this.ingredients = ingredients;
+    this.ingServ.getIngredientsAndMeasurements().subscribe({
+      next: (ingredients: [][]) => {
+        // this.ingredients = ingredients;
+
+        this.measurements = ingredients[1];
+        this.ingredients = ingredients[0];
+
+
       },
       error: (err: any) => {
         console.error(err);
@@ -125,6 +143,7 @@ export class RecipeComponent implements OnInit {
   }
 
   create(recipe: Recipe) {
+    console.log(recipe);
     this.recipeService.create(recipe).subscribe({
       next: (recipe: Recipe) => {
         this.selected = recipe;
@@ -140,7 +159,6 @@ export class RecipeComponent implements OnInit {
   addToFavorites(userId: number, recipeId: number, recipe: Recipe) {
     this.recipeService.addToFavorites(userId, recipeId).subscribe({
       next: () => {
-
         this.getUser();
       },
       error: (err: any) => {
@@ -152,7 +170,6 @@ export class RecipeComponent implements OnInit {
   removeFromFavorites(userId: number, recipeId: number, recipe: Recipe) {
     this.recipeService.removeFromFavorites(userId, recipeId).subscribe({
       next: () => {
-
         this.getUser();
       },
       error: (err: any) => {
@@ -203,6 +220,7 @@ export class RecipeComponent implements OnInit {
   }
 
   selectRecipe(recipe: Recipe) {
+    console.log(recipe);
     this.selected = recipe;
   }
 

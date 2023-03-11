@@ -29,13 +29,16 @@ public class RecipeHasIngredient {
 	private Ingredient ingredient;
 	
 	private String amount;
+	
+	private String measurement;
 
-	public RecipeHasIngredient(RecipeHasIngredientId id, Recipe recipe, Ingredient ingredient, String amount) {
+	public RecipeHasIngredient(RecipeHasIngredientId id, Recipe recipe, Ingredient ingredient, String amount, String unit) {
 		super();
 		this.id = id;
 		this.recipe = recipe;
 		this.ingredient = ingredient;
 		this.amount = amount;
+		this.measurement = unit;
 	}
 
 	public RecipeHasIngredient() {
@@ -72,6 +75,14 @@ public class RecipeHasIngredient {
 
 	public void setAmount(String amount) {
 		this.amount = amount;
+	}
+
+	public String getMeasurement() {
+		return measurement;
+	}
+
+	public void setMeasurement(String unit) {
+		this.measurement = unit;
 	}
 
 	@Override

@@ -10,7 +10,7 @@ export class Recipe {
   imageUrl: string;
   ingredients: RecipeHasIngredient[];
   instructions: Instruction[];
-  user: User;
+  user: User | null;
 
   constructor(
     id: number = 0,
@@ -19,7 +19,7 @@ export class Recipe {
     imageUrl: string ='',
     ingredients: RecipeHasIngredient[] = [],
     instructions: Instruction[] = [],
-    user: User = new User()
+    user: User | null = null
   ) {
     this.id = id;
     this.name = name;

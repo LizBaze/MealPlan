@@ -5,6 +5,10 @@ img {
 
 }
 
+#ingAmount {
+  width: 50px;
+}
+
 .img-holder {
   justify-content: center;
 }
@@ -13,6 +17,11 @@ img {
 .search {
   justify-content: right;
   text-align: right;
+}
+
+.measurementsInput {
+  width: 20%;
+  max-width: 75px;
 }
 
 

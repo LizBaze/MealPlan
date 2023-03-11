@@ -52,7 +52,7 @@
 
   <button
     class="btn"
-    *ngIf="user && user.id === selected.user.id"
+    *ngIf="user && user.id === selected.user?.id"
     (click)="selectRecipeToEdit(selected)"
   >
     Edit

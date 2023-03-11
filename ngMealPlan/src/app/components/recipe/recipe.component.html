@@ -69,6 +69,24 @@
     <div>
       <label for="name">Ingredient:</label>
       <input
+        #ingAmount
+        class="text"
+        type="number"
+        id="ingAmount"
+        [(ngModel)]="ingredient.amount"
+      />
+
+      <input class="text measurementsInput" type="text" list="measurements" />
+      <datalist id="measurements">
+        <div *ngFor="let measurement of measurements">
+          <option
+            name="measurementName"
+            value="{{ measurement.description }}"
+          ></option>
+        </div>
+      </datalist>
+
+      <input
         class="text"
         type="text"
         list="suggestions"
@@ -80,20 +98,13 @@
           <option name="name">{{ ing.name }}</option>
         </div>
       </datalist>
+      <button
+        class="btn danger"
+        (click)="removeIngredientFromRecipe(ingredient, editRecipe)"
+      >
+        X
+      </button>
     </div>
-    <label for="amount">Amount:</label>
-    <input
-      class="text"
-      type="text"
-      name="amount"
-      [(ngModel)]="ingredient.amount"
-    />
-    <button
-      class="btn danger"
-      (click)="removeIngredientFromRecipe(ingredient, editRecipe)"
-    >
-      X
-    </button>
   </div>
   <button class="btn" (click)="addNewIngredientToRecipe(editRecipe)">
     Add Ingredient
@@ -135,9 +146,11 @@
     alt=""
   />
   <h3>{{ selected.name }}</h3>
+  <p>{{ selected.description }}</p>
   <ul>
     <li *ngFor="let recipeIngredient of selected.ingredients">
-      {{ recipeIngredient.amount }} {{ recipeIngredient.ingredient.name }}
+      {{ recipeIngredient.amount }} {{ recipeIngredient.measurement }}
+      {{ recipeIngredient.ingredient.name }}
     </li>
   </ul>
   <div *ngFor="let instruction of selected.instructions; let i = index">
@@ -146,7 +159,7 @@
 
   <button
     class="btn"
-    *ngIf="user && user.id === selected.user.id"
+    *ngIf="user && user.id === selected.user?.id"
     (click)="selectRecipeToEdit(selected)"
   >
     Edit
@@ -204,6 +217,29 @@
     <div>
       <label for="name">Ingredient:</label>
       <input
+        #ingAmount
+        class="text"
+        type="number"
+        id="ingAmount"
+        [(ngModel)]="ingredient.amount"
+      />
+
+      <input
+        class="text measurementsInput"
+        type="text"
+
+        [(ngModel)]="ingredient.measurement"
+      />
+      <datalist id="measurements">
+        <div *ngFor="let measurement of measurements">
+          <option
+            name="measurementName"
+            value="{{ measurement.description }}"
+          ></option>
+        </div>
+      </datalist>
+
+      <input
         class="text"
         type="text"
         list="suggestions"
@@ -215,20 +251,21 @@
           <option name="name">{{ ing.name }}</option>
         </div>
       </datalist>
+      <button
+        class="btn danger"
+        (click)="removeIngredientFromRecipe(ingredient, newRecipe)"
+      >
+        X
+      </button>
     </div>
-    <label for="amount">Amount:</label>
+    <!-- <label for="amount">Amount:</label>
+
     <input
       class="text"
       type="text"
       name="amount"
       [(ngModel)]="ingredient.amount"
-    />
-    <button
-      class="btn danger"
-      (click)="removeIngredientFromRecipe(ingredient, newRecipe)"
-    >
-      X
-    </button>
+    /> -->
   </div>
   <button class="btn" (click)="addNewIngredientToRecipe(newRecipe)">
     Add Ingredient
