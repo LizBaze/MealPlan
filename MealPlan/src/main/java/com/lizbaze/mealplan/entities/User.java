@@ -45,12 +45,15 @@ public class User {
 	@JoinTable(name="mealplan", joinColumns = @JoinColumn(name="user_id"), inverseJoinColumns=@JoinColumn(name="recipe_id"))
 	@JsonIgnoreProperties({"user"})
 	private List<Recipe> mealPlan;
+	
+	@OneToMany(mappedBy="user")
+	private List<Grocery> groceries;
 
 	public User() {
 	}
 
 	public User(int id, String username, String password, String email, List<Recipe> recipes, String role,
-			List<Recipe> createdRecipes) {
+			List<Recipe> createdRecipes, List<Grocery> groceries) {
 		super();
 		this.id = id;
 		this.username = username;
@@ -59,6 +62,7 @@ public class User {
 		this.recipes = recipes;
 		this.role = role;
 		this.createdRecipes = createdRecipes;
+		this.groceries = groceries;
 	}
 
 	public int getId() {
@@ -133,6 +137,14 @@ public class User {
 		this.mealPlan = mealPlan;
 	}
 
+	public List<Grocery> getGroceries() {
+		return groceries;
+	}
+
+	public void setGroceries(List<Grocery> groceries) {
+		this.groceries = groceries;
+	}
+
 	@Override
 	public int hashCode() {
 		return Objects.hash(id);
@@ -200,6 +212,22 @@ public class User {
 		if (createdRecipes != null && recipes.contains(recipe)) {
 			createdRecipes.remove(recipe);
 			recipe.setUser(null);
+		}
+	}
+	
+	
+	public void addGrocery(Grocery grocery) {
+		if (groceries == null) {
+			groceries = new ArrayList<>();
+		}
+		if (! groceries.contains(grocery)) {
+			groceries.add(grocery);
+		}
+	}
+	
+	public void removeGrocery(Grocery grocery) {
+		if (groceries != null && groceries.contains(grocery)) {
+			groceries.remove(grocery);
 		}
 	}
 

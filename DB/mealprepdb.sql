@@ -165,9 +165,29 @@ ENGINE = InnoDB;
 DROP TABLE IF EXISTS `measurement` ;
 
 CREATE TABLE IF NOT EXISTS `measurement` (
-  `id` INT NOT NULL,
+  `id` INT NOT NULL AUTO_INCREMENT,
   `description` VARCHAR(45) NULL,
   PRIMARY KEY (`id`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `grocery`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `grocery` ;
+
+CREATE TABLE IF NOT EXISTS `grocery` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(100) NOT NULL,
+  `completed` TINYINT NULL,
+  `user_id` INT NOT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `fk_grocery_user1_idx` (`user_id` ASC),
+  CONSTRAINT `fk_grocery_user1`
+    FOREIGN KEY (`user_id`)
+    REFERENCES `user` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 SET SQL_MODE = '';
@@ -272,6 +292,17 @@ INSERT INTO `measurement` (`id`, `description`) VALUES (10, 'fl oz');
 INSERT INTO `measurement` (`id`, `description`) VALUES (11, 'tsp');
 INSERT INTO `measurement` (`id`, `description`) VALUES (12, 'tbsp');
 INSERT INTO `measurement` (`id`, `description`) VALUES (13, 'pinch');
+
+COMMIT;
+
+
+-- -----------------------------------------------------
+-- Data for table `grocery`
+-- -----------------------------------------------------
+START TRANSACTION;
+USE `mealprepdb`;
+INSERT INTO `grocery` (`id`, `name`, `completed`, `user_id`) VALUES (1, 'Cheese', 0, 1);
+INSERT INTO `grocery` (`id`, `name`, `completed`, `user_id`) VALUES (2, 'Macaroni', 0, 1);
 
 COMMIT;
 

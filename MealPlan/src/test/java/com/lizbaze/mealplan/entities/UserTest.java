@@ -58,5 +58,11 @@ class UserTest {
 		assertNotNull(user);
 		assertTrue(user.getMealPlan().size() > 0);
 	}
+	
+	@Test
+	void test_user_groceries() {
+		assertNotNull(user);
+		assertTrue(user.getGroceries().size() > 0);
+	}
 
 }
