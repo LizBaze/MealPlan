@@ -8,6 +8,10 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -20,17 +24,15 @@ import com.lizbaze.mealplan.services.GroceryService;
 @CrossOrigin(origins = "*")
 @RequestMapping("api")
 public class GroceryController {
-	
+
 	@Autowired
 	private GroceryService grocServ;
 	@Autowired
 	private AuthService auth;
-	
-	
-	
-	@GetMapping("users/groceries")
+
+	@GetMapping("groceries")
 	public List<Grocery> get(Principal principal, HttpServletResponse res) {
-		
+
 		User user = auth.getUserByUsername(principal.getName());
 		List<Grocery> groceries = null;
 		if (user != null) {
@@ -39,8 +41,63 @@ public class GroceryController {
 		} else {
 			res.setStatus(400);
 		}
-		
+
 		return groceries;
 	}
+
+	@PostMapping("groceries")
+	public Grocery create(@RequestBody Grocery grocery, Principal principal, HttpServletResponse res) {
+		try {
+			grocery = grocServ.create(principal.getName(), grocery);
+			if (grocery == null) {
+				res.setStatus(400);
+			} else {
+				res.setStatus(200);
+			}
+		} catch (Exception e) {
+			res.setStatus(400);
+			grocery = null;
+			e.printStackTrace();
+		}
+		return grocery;
+	}
+
+	@PutMapping("groceries/{id}")
+	public Grocery update(@PathVariable int id, @RequestBody Grocery grocery, Principal principal, HttpServletResponse res) {
+		
+		grocery = grocServ.update(principal.getName(), id, grocery);
+		if (grocery == null ) {
+			res.setStatus(400);
+		} else {
+			res.setStatus(200);
+		}
+		
+		
+		return grocery;
+	}
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 }

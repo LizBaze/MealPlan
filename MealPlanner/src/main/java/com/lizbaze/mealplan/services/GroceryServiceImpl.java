@@ -7,13 +7,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.lizbaze.mealplan.entities.Grocery;
+import com.lizbaze.mealplan.entities.User;
 import com.lizbaze.mealplan.repositories.GroceryRepository;
+import com.lizbaze.mealplan.repositories.UserRepository;
 
 @Service
 public class GroceryServiceImpl implements GroceryService {
 
 	@Autowired
 	private GroceryRepository groceryRepo;
+	@Autowired
+	private UserRepository userRepo;
 	
 	@Override
 	public List<Grocery> findAll() {
@@ -23,23 +27,33 @@ public class GroceryServiceImpl implements GroceryService {
 	
 
 	@Override
-	public Grocery create(Grocery grocery) {
-		grocery = groceryRepo.saveAndFlush(grocery);
-		return grocery;
+	public Grocery create(String username, Grocery grocery) {
+		User user = userRepo.findByUsername(username);
+		if (user != null) {
+			grocery.setUser(user);
+			return groceryRepo.saveAndFlush(grocery);
+		}
+		return null;
 	}
 
+	
 	@Override
-	public Grocery update(Grocery grocery) {
-		Optional<Grocery> groceryOpt = groceryRepo.findById(grocery.getId());
+	public Grocery update(String username, int id, Grocery grocery) {
+		User user = userRepo.findByUsername(username);
+		Optional<Grocery> groceryOpt = groceryRepo.findById(id);
 		Grocery updated = null;
+		
 		if (groceryOpt.isPresent()) {
 			updated = groceryOpt.get();
-			updated.setName(grocery.getName());
-			updated.setCompleted(grocery.isCompleted());
+			if (user != null && updated.getUser().getId() == user.getId()) {
+				updated.setName(grocery.getName());
+				updated.setCompleted(grocery.isCompleted());
+				groceryRepo.saveAndFlush(updated);
+			}
 		}
+		
 		return updated;
 	}
-
 
 
 	@Override
