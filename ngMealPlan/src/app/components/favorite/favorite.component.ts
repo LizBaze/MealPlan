@@ -4,6 +4,8 @@ import { AuthService } from 'src/app/services/auth.service';
 import { Component, OnInit } from '@angular/core';
 import { User } from 'src/app/models/user';
 import { Recipe } from 'src/app/models/recipe';
+import { GroceryService } from 'src/app/services/grocery.service';
+import { Grocery } from 'src/app/models/grocery';
 
 @Component({
   selector: 'app-favorite',
@@ -23,6 +25,7 @@ export class FavoriteComponent implements OnInit {
   constructor(
     private auth: AuthService,
     private recipeService: RecipeService,
+    private groceryService: GroceryService,
     private router: Router
   ) {}
 
@@ -139,12 +142,37 @@ export class FavoriteComponent implements OnInit {
       this.recipeService.createMealPlan(recipes, this.user.username).subscribe({
         next: (recipes: Recipe[]) => {
           this.mealPlan = recipes;
+          this.generateGroceryList();
         },
         error: (err: any) => {
           console.error(err);
         },
       });
     }
+  }
+
+  generateGroceryList() {
+    if (this.mealPlan) {
+      let groceries: Grocery[] = [];
+      for (let i = 0; i < this.mealPlan.length; i++) {
+        for (let j = 0; j < this.mealPlan[i].ingredients.length; j++) {
+          let grocery = new Grocery();
+          grocery.name = this.mealPlan[i].ingredients[j].ingredient.name;
+          groceries.push(grocery)
+        }
+      }
+
+      this.groceryService.createList(groceries).subscribe({
+        next: (groceryList: Grocery[]) => {
+
+        },
+        error: (err: any) => {
+          console.error(err);
+        }
+      })
+
+    }
+
   }
 
   getMealPlan() {

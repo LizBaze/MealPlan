@@ -31,9 +31,9 @@ public class GroceryServiceImpl implements GroceryService {
 		User user = userRepo.findByUsername(username);
 		if (user != null) {
 			grocery.setUser(user);
-			return groceryRepo.saveAndFlush(grocery);
+			grocery = groceryRepo.saveAndFlush(grocery);
 		}
-		return null;
+		return grocery;
 	}
 
 	

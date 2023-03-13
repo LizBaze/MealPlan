@@ -26,7 +26,7 @@ export class GroceryService {
 
 
   index(): Observable<Grocery[]> {
-    return this.http.get<Grocery[]>(this.url, this.getHttpOptions()).pipe(
+    return this.http.get<Grocery[]>(this.url + "api/groceries", this.getHttpOptions()).pipe(
       catchError((err: any) => {
         console.log(err);
         return throwError(
@@ -38,7 +38,7 @@ export class GroceryService {
   }
 
   create(grocery: Grocery): Observable<Grocery> {
-    return this.http.post<Grocery>(this.url, grocery, this.getHttpOptions()).pipe(
+    return this.http.post<Grocery>(this.url  + "api/groceries", grocery, this.getHttpOptions()).pipe(
       catchError((err: any) => {
         console.log(err);
         return throwError(
@@ -50,7 +50,7 @@ export class GroceryService {
   }
 
   update(grocery: Grocery): Observable<Grocery> {
-    return this.http.put<Grocery>(this.url + "/" + grocery.id, grocery, this.getHttpOptions()).pipe(
+    return this.http.put<Grocery>(this.url + "api/groceries" + "/" + grocery.id, grocery, this.getHttpOptions()).pipe(
       catchError((err: any) => {
         console.log(err);
         return throwError(
@@ -61,6 +61,17 @@ export class GroceryService {
     )
   }
 
+  createList(groceries: Grocery[]): Observable<Grocery[]> {
+    return this.http.post<Grocery[]>(this.url  + "api/grocerylist", groceries, this.getHttpOptions()).pipe(
+      catchError((err: any) => {
+        console.log(err);
+        return throwError(
+          () =>
+            new Error('GroceryService.createList(): error creating grocery list: ' + err)
+        );
+      })
+    )
+  }
 
 
 }

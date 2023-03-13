@@ -50,20 +50,16 @@
 
 <div class="container"></div>
 
-<div class="container" *ngIf="mealPlan">
+<div class="container" *ngIf="mealPlan && !makeMealPlan">
   <h3>Your Meals</h3>
   <ul>
     <li *ngFor="let recipe of mealPlan">{{ recipe.name }}</li>
   </ul>
 
   <h3>Grocery List</h3>
-  <ul>
-    <div *ngFor="let recipe of mealPlan">
-      <li *ngFor="let ingredient of recipe.ingredients">
-        {{ ingredient.ingredient.name }}
-      </li>
-    </div>
-  </ul>
+  <div>
+    <app-grocery></app-grocery>
+  </div>
 </div>
 
 <div

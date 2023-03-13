@@ -176,6 +176,7 @@ export class RecipeService {
   }
 
   createMealPlan(recipes: Recipe[], username: string) {
+    console.log(recipes);
     return this.http
       .put<Recipe[]>(
         this.url + 'api/users/mealPlan',
