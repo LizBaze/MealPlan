@@ -1,3 +1,4 @@
+import { CommonService } from './../../services/common.service';
 import { Router } from '@angular/router';
 import { RecipeService } from './../../services/recipe.service';
 import { AuthService } from 'src/app/services/auth.service';
@@ -26,11 +27,16 @@ export class FavoriteComponent implements OnInit {
     private auth: AuthService,
     private recipeService: RecipeService,
     private groceryService: GroceryService,
+    private commonService: CommonService,
     private router: Router
   ) {}
 
   ngOnInit(): void {
     this.getUser();
+  }
+
+  sendMessage(): void {
+    this.commonService.sendUpdate('refresh')
   }
 
   getFavorites() {
@@ -143,6 +149,7 @@ export class FavoriteComponent implements OnInit {
         next: (recipes: Recipe[]) => {
           this.mealPlan = recipes;
           this.generateGroceryList();
+          this.sendMessage();
         },
         error: (err: any) => {
           console.error(err);

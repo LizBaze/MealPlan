@@ -2,7 +2,7 @@
 
   <tr *ngFor="let grocery of groceries">
     <td *ngIf="!grocery.completed">
-      <input type="checkbox" [(ngModel)]="grocery.completed" (change)="update(grocery)">
+      <input class="form-check-input" type="checkbox" [(ngModel)]="grocery.completed" (change)="update(grocery)">
     </td>
     <td *ngIf="!grocery.completed" >{{grocery.name}}</td>
 
