@@ -12,6 +12,7 @@ import { NavbarComponent } from './components/navbar/navbar.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AccountComponent } from './components/account/account.component';
 import { FavoriteComponent } from './components/favorite/favorite.component';
+import { GroceryComponent } from './components/grocery/grocery.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { FavoriteComponent } from './components/favorite/favorite.component';
     HomeComponent,
     NavbarComponent,
     AccountComponent,
-    FavoriteComponent
+    FavoriteComponent,
+    GroceryComponent
   ],
   imports: [
     BrowserModule,

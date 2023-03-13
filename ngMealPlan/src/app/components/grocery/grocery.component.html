@@ -1,0 +1,11 @@
+<table *ngIf="groceries">
+
+  <tr *ngFor="let grocery of groceries">
+    <td>
+      <input type="checkbox" [(ngModel)]="grocery.completed" (change)="update(grocery)">
+    </td>
+    <td>{{grocery.name}}</td>
+
+  </tr>
+
+</table>

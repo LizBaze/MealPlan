@@ -52,7 +52,7 @@ public class GroceryController {
 			if (grocery == null) {
 				res.setStatus(400);
 			} else {
-				res.setStatus(200);
+				res.setStatus(201);
 			}
 		} catch (Exception e) {
 			res.setStatus(400);
@@ -74,6 +74,21 @@ public class GroceryController {
 		
 		
 		return grocery;
+	}
+	
+	@PostMapping("grocerylist")
+	public List<Grocery> createList(@RequestBody List<Grocery> groceries, Principal principal, HttpServletResponse res) {
+		for (Grocery grocery : groceries) {
+			grocery = grocServ.create(principal.getName(), grocery);
+			if (grocery == null) {
+				res.setStatus(400);
+				return null;
+			}
+		}
+		res.setStatus(201);
+		
+		
+		return groceries;
 	}
 
 	
